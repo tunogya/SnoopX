@@ -1,4 +1,7 @@
 import {NextRequest} from "next/server";
+import {connectToDatabase} from "@/utils/mongodb";
+import {ObjectId} from "mongodb";
+import {redirect} from "next/navigation";
 
 /**
  * Document
@@ -14,7 +17,7 @@ const GET = async (req: NextRequest) => {
     })
   }
 
-  const result = await fetch(`https://api.twitter.com/2/oauth2/token`, {
+  const { token_type, access_token, refresh_token } = await fetch(`https://api.twitter.com/2/oauth2/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -28,11 +31,31 @@ const GET = async (req: NextRequest) => {
     })
   }).then((res) => res.json());
 
-  console.log("result", result);
+  const { id, name, username, profile_image_url } = await fetch(`https://api.twitter.com/2/me`, {
+    headers: {
+      "Authorization": `Bearer ${access_token}`,
+    }
+  }).then((res) => res.json())
+    .then((res) => res.data);
 
-  return Response.json({
-    ok: true,
-  })
+  const { db } = await connectToDatabase();
+
+  await db.collection("users").updateOne(
+    { _id: new ObjectId(id as string) },
+    {
+      $set: {
+        name: name,
+        username: username,
+        profile_image_url: profile_image_url,
+        token_type: token_type,
+        access_token: access_token,
+        refresh_token: refresh_token
+      }
+    },
+    { upsert: true }
+  );
+
+  return redirect("https://snoopx.abandon.ai/x")
 }
 
 export {GET}
