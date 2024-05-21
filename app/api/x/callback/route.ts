@@ -3,6 +3,9 @@ import {connectToDatabase} from "@/utils/mongodb";
 import {ObjectId} from "mongodb";
 import {redirect} from "next/navigation";
 
+const clientId = process.env.NEXT_PUBLIC_X_CLIENT_ID || "";
+const clientSecret = process.env.X_CLIENT_SECRET || "";
+
 /**
  * Document
  * https://developer.x.com/en/docs/authentication/oauth-2-0/user-access-token
@@ -16,16 +19,18 @@ const GET = async (req: NextRequest) => {
       status: 400,
     })
   }
+  const credentials = `${clientId}:${clientSecret}`;
 
   const requestToken = await fetch(`https://api.twitter.com/2/oauth2/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": `Basic ${Buffer.from(credentials).toString('base64')}`
     },
     body: new URLSearchParams({
       code: code,
       grant_type: 'authorization_code',
-      client_id: 'eWp3dG1tVjRpM1lBWDJVSXlhR3c6MTpjaQ',
+      client_id: clientId,
       // redirect_uri: 'https://snoopx.abandon.ai/api/x/callback',
       redirect_uri: "http://localhost:3000/api/x/callback",
       code_verifier: 'challenge'
