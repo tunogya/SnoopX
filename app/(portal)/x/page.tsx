@@ -14,13 +14,6 @@ const Page = () => {
   return (
     <div className={"p-4"}>
       <div className={"flex flex-row space-x-4 border-b pb-4 border-[#2f2f2f]"}>
-        {
-          data && data.map((item: any) => (
-            <div key={item._id} className={"flex flex-col items-center justify-center h-20 w-20"}>
-              <Image className={"rounded-full border-2 border-white"} alt={""} src={item.profile_image_url} width={48} height={48}/>
-            </div>
-          ))
-        }
         <div className={"w-20 h-20 flex items-center justify-center"}>
           <a
             target={"_blank"}
@@ -33,6 +26,14 @@ const Page = () => {
             </svg>
           </a>
         </div>
+        {
+          data && data.map((item: any) => (
+            <div key={item._id} className={"flex flex-col items-center justify-center h-20 w-20"}>
+              <Image className={"rounded-full border-2 border-white"} alt={""} src={item.profile_image_url} width={48}
+                     height={48}/>
+            </div>
+          ))
+        }
       </div>
     </div>
   )
