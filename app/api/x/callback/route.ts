@@ -17,7 +17,7 @@ const GET = async (req: NextRequest) => {
     })
   }
 
-  const { token_type, access_token, refresh_token } = await fetch(`https://api.twitter.com/2/oauth2/token`, {
+  const requestToken = await fetch(`https://api.twitter.com/2/oauth2/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -31,25 +31,29 @@ const GET = async (req: NextRequest) => {
     })
   }).then((res) => res.json());
 
-  const { id, name, username, profile_image_url } = await fetch(`https://api.twitter.com/2/me`, {
+  console.log(requestToken);
+
+  const requestMe = await fetch(`https://api.twitter.com/2/me`, {
     headers: {
-      "Authorization": `Bearer ${access_token}`,
+      "Authorization": `Bearer ${requestToken.access_token}`,
     }
   }).then((res) => res.json())
     .then((res) => res.data);
 
+  console.log(requestMe);
+
   const { db } = await connectToDatabase();
 
   await db.collection("users").updateOne(
-    { _id: new ObjectId(id as string) },
+    { _id: new ObjectId(requestMe.id as string) },
     {
       $set: {
-        name: name,
-        username: username,
-        profile_image_url: profile_image_url,
-        token_type: token_type,
-        access_token: access_token,
-        refresh_token: refresh_token
+        name: requestMe.name,
+        username: requestMe.username,
+        profile_image_url: requestMe.profile_image_url,
+        token_type: requestToken.token_type,
+        access_token: requestToken.access_token,
+        refresh_token: requestToken.refresh_token
       }
     },
     { upsert: true }
