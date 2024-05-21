@@ -1,7 +1,8 @@
 'use client';
 
 const client_id = "eWp3dG1tVjRpM1lBWDJVSXlhR3c6MTpjaQ"
-const redirect_uri = "https://snoopx.abandon.ai/api/x/callback"
+// const redirect_uri = "https://snoopx.abandon.ai/api/x/callback"
+const redirect_uri = "http://localhost:3000/api/x/callback"
 const scope = "tweet.read%20users.read%20offline.access"
 
 const Page = () => {

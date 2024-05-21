@@ -25,8 +25,9 @@ const GET = async (req: NextRequest) => {
     body: new URLSearchParams({
       code: code,
       grant_type: 'authorization_code',
-      client_id: 'rG9n6402A3dbUJKzXTNX4oWHJ',
-      redirect_uri: 'https://snoopx.abandon.ai/api/x/callback',
+      client_id: 'eWp3dG1tVjRpM1lBWDJVSXlhR3c6MTpjaQ',
+      // redirect_uri: 'https://snoopx.abandon.ai/api/x/callback',
+      redirect_uri: "http://localhost:3000/api/x/callback",
       code_verifier: 'challenge'
     })
   }).then((res) => res.json());
