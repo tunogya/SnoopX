@@ -2,7 +2,7 @@
 
 const client_id = process.env.NEXT_PUBLIC_X_CLIENT_ID;
 // const redirect_uri = "https://snoopx.abandon.ai/api/x/callback"
-const redirect_uri = "http://localhost:3000/api/x/callback";
+const redirect_uri = process.env.NEXT_PUBLIC_X_CALLBACK_URL;
 const scope = "tweet.read%20users.read%20offline.access";
 
 const Page = () => {

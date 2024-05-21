@@ -5,6 +5,7 @@ import {redirect} from "next/navigation";
 
 const clientId = process.env.NEXT_PUBLIC_X_CLIENT_ID || "";
 const clientSecret = process.env.X_CLIENT_SECRET || "";
+const callbackUrl = process.env.NEXT_PUBLIC_X_CALLBACK_URL || ""
 
 /**
  * Document
@@ -32,34 +33,30 @@ const GET = async (req: NextRequest) => {
       grant_type: 'authorization_code',
       client_id: clientId,
       // redirect_uri: 'https://snoopx.abandon.ai/api/x/callback',
-      redirect_uri: "http://localhost:3000/api/x/callback",
+      redirect_uri: callbackUrl,
       code_verifier: 'challenge'
     })
   }).then((res) => res.json());
 
-  console.log(requestToken);
-
-  const requestMe = await fetch(`https://api.twitter.com/2/me`, {
+  const requestMe = await fetch(`https://api.twitter.com/2/users/me?user.fields=id,name,profile_image_url,username`, {
     headers: {
       "Authorization": `Bearer ${requestToken.access_token}`,
     }
-  }).then((res) => res.json())
-    .then((res) => res.data);
-
-  console.log(requestMe);
+  }).then((res) => res.json());
 
   const { db } = await connectToDatabase();
 
   await db.collection("users").updateOne(
-    { _id: new ObjectId(requestMe.id as string) },
+    { id: requestMe.data.id },
     {
       $set: {
-        name: requestMe.name,
-        username: requestMe.username,
+        name: requestMe.data.name,
+        username: requestMe.data.username,
         profile_image_url: requestMe.profile_image_url,
         token_type: requestToken.token_type,
         access_token: requestToken.access_token,
-        refresh_token: requestToken.refresh_token
+        scope: requestToken.scope,
+        refresh_token: requestToken.refresh_token,
       }
     },
     { upsert: true }
