@@ -7,7 +7,9 @@ const redirect_uri = process.env.NEXT_PUBLIC_X_CALLBACK_URL;
 const scope = "tweet.read%20users.read%20offline.access";
 
 const Page = () => {
-  const { data } = useSWR('/api/x/users', (url) => fetch(url).then((res) => res.json()).then((res) => res.data));
+  const { data } = useSWR('/api/x/users', (url) => fetch(url).then((res) => res.json()).then((res) => res.data), {
+    refreshInterval: 10_000,
+  });
 
   return (
     <div className={"p-4"}>
