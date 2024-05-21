@@ -27,14 +27,14 @@ const Layout = ({children}: { children: ReactNode }) => {
 
   return (
     <div className={'h-full overflow-scroll flex flex-col'}>
-      <div className={"h-12 flex flex-row items-center px-4 text-white space-x-8"}>
+      <div className={"h-12 flex flex-row items-center px-4 text-white space-x-8 border-b-2 border-[#2f2f2f]"}>
         <div className={"text-white italic font-bold text-2xl"}>SnoopX</div>
         <div className={"flex flex-row items-center space-x-4"}>
           {
             data.map((item) => (
               <Link
                 key={item.pathname}
-                className={`text-white ${pathname.startsWith(item.pathname) ? "text-green-500 italic font-bold" : "font-semibold"}`}
+                className={`${pathname.startsWith(item.pathname) ? "text-green-500 italic font-bold" : "font-semibold text-white"}`}
                 href={item.pathname}>
                 {item.label}
               </Link>
