@@ -1,6 +1,5 @@
 import {NextRequest} from "next/server";
 import {connectToDatabase} from "@/utils/mongodb";
-import {ObjectId} from "mongodb";
 import {redirect} from "next/navigation";
 
 const clientId = process.env.NEXT_PUBLIC_X_CLIENT_ID || "";
