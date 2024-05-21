@@ -31,13 +31,12 @@ const GET = async (req: NextRequest) => {
       code: code,
       grant_type: 'authorization_code',
       client_id: clientId,
-      // redirect_uri: 'https://snoopx.abandon.ai/api/x/callback',
       redirect_uri: callbackUrl,
       code_verifier: 'challenge'
     })
   }).then((res) => res.json());
 
-  const requestMe = await fetch(`https://api.twitter.com/2/users/me?user.fields=id,name,profile_image_url,username`, {
+  const { data } = await fetch(`https://api.twitter.com/2/users/me?user.fields=id,name,profile_image_url,username`, {
     headers: {
       "Authorization": `Bearer ${requestToken.access_token}`,
     }
@@ -46,12 +45,12 @@ const GET = async (req: NextRequest) => {
   const { db } = await connectToDatabase();
 
   await db.collection("users").updateOne(
-    { id: requestMe.data.id },
+    { id: data.id },
     {
       $set: {
-        name: requestMe.data.name,
-        username: requestMe.data.username,
-        profile_image_url: requestMe.profile_image_url,
+        name: data.name,
+        username: data.username,
+        profile_image_url: data.profile_image_url,
         token_type: requestToken.token_type,
         access_token: requestToken.access_token,
         scope: requestToken.scope,
