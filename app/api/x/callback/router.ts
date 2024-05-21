@@ -1,11 +1,11 @@
 import {NextRequest} from "next/server";
 
-const POST = async (req: NextRequest) => {
-  const data = await req.json();
-  console.log(data);
+const GET = async (req: NextRequest) => {
+  const code = req.nextUrl.searchParams.get('code');
+  console.log("code", code);
   return Response.json({
     ok: true,
   })
 }
 
-export {POST}
+export {GET}
