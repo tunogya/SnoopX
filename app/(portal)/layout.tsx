@@ -26,7 +26,7 @@ const Layout = ({children}: { children: ReactNode }) => {
   ]
 
   return (
-    <div className={'h-full overflow-scroll'}>
+    <div className={'h-full overflow-scroll flex flex-col'}>
       <div className={"h-12 flex flex-row items-center px-4 text-white space-x-8"}>
         <div className={"text-white italic font-bold text-2xl"}>SnoopX</div>
         <div className={"flex flex-row items-center space-x-4"}>
@@ -42,7 +42,9 @@ const Layout = ({children}: { children: ReactNode }) => {
           }
         </div>
       </div>
-      {children}
+      <div className={"flex-1 overflow-scroll"}>
+        {children}
+      </div>
     </div>
   )
 }
