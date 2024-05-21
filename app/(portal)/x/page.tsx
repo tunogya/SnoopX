@@ -11,7 +11,7 @@ const Page = () => {
 
   return (
     <div className={"p-4"}>
-      <div className={"flex flex-row space-x-4"}>
+      <div className={"flex flex-row space-x-4 border-b pb-4 border-[#2f2f2f]"}>
         {
           data && data.map((item: any) => (
             <div key={item._id} className={"flex flex-col items-center justify-center h-20 w-20"}>
@@ -23,7 +23,7 @@ const Page = () => {
           <a
             target={"_blank"}
             href={`https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&state=state&code_challenge=challenge&code_challenge_method=plain`}
-            className={"border-2 border-[#B3B3B3] text-white px-3 py-1.5 text-sm font-semibold w-full h-full flex items-center justify-center"}
+            className={"border-2 border-[#B3B3B3] text-white w-16 h-16 flex items-center justify-center"}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                  stroke="currentColor" className="w-6 h-6">
