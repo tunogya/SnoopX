@@ -13,6 +13,14 @@ const GET = async (req: NextRequest) => {
 
   return Response.json({
     data: users,
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+      'Surrogate-Control': 'no-store'
+    }
   })
 }
 
