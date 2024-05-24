@@ -41,9 +41,36 @@ const Page = () => {
       <div>
         {
           tweets && tweets.map((item: any) => (
-            <div key={item._id} className={"flex flex-col p-4 border-b border-[#2f2f2f]"}>
-              <p className={"text-white"}>{item.text}</p>
-              <p className={"text-[#B3B3B3] text-xs"}>{new Date(item.created_at).toLocaleString()}</p>
+            <div key={item._id} className={"border-b border-[#2f2f2f] p-4 flex flex-row space-x-6"}>
+              <div className={'flex flex-row items-center text-white space-x-3'}>
+                <div className={'text-green-500'}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                       stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round"
+                          d="M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"/>
+                  </svg>
+                </div>
+
+                <div className={"text-gray-500"}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                       stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round"
+                          d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                  </svg>
+                </div>
+
+                <div className={"text-red-500"}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                       stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round"
+                          d="M15.182 16.318A4.486 4.486 0 0 0 12.016 15a4.486 4.486 0 0 0-3.198 1.318M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"/>
+                  </svg>
+                </div>
+              </div>
+              <div className={"flex flex-col"}>
+                <p className={"text-white"}>{item.text}</p>
+                <p className={"text-[#B3B3B3] text-xs"}>{new Date(item.created_at).toLocaleString()}</p>
+              </div>
             </div>
           ))
         }
