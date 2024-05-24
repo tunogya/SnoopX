@@ -7,7 +7,10 @@ const redirect_uri = process.env.NEXT_PUBLIC_X_CALLBACK_URL;
 const scope = "tweet.read%20users.read%20offline.access";
 
 const Page = () => {
-  const { data } = useSWR('/api/x/users', (url) => fetch(url).then((res) => res.json()).then((res) => res.data), {
+  const { data: users } = useSWR('/api/x/users', (url) => fetch(url).then((res) => res.json()).then((res) => res.data), {
+    refreshInterval: 10_000,
+  });
+  const { data: tweets } = useSWR('/api/x/tweets', (url) => fetch(url).then((res) => res.json()).then((res) => res.data), {
     refreshInterval: 10_000,
   });
 
@@ -27,10 +30,19 @@ const Page = () => {
           </a>
         </div>
         {
-          data && data.map((item: any) => (
+          users && users.map((item: any) => (
             <div key={item._id} className={"flex flex-col items-center justify-center h-20 w-20"}>
               <Image className={"rounded-full border-2 border-white"} alt={""} src={item.profile_image_url} width={48}
                      height={48}/>
+            </div>
+          ))
+        }
+      </div>
+      <div>
+        {
+          tweets && tweets.map((item: any) => (
+            <div key={item._id} className={"flex flex-col p-4 border-b border-[#2f2f2f]"}>
+              <p className={"text-white"}>{item.text}</p>
             </div>
           ))
         }

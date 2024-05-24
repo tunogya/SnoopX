@@ -56,7 +56,7 @@ const GET = async (req: NextRequest, { params }: { params: { id: string } }) => 
     })
 
     // use access_token to get timelines
-    timelines = await fetch(`https://api.twitter.com/2/users/${params.id}/timelines/reverse_chronological?max_results=100`, {
+    timelines = await fetch(`https://api.twitter.com/2/users/${params.id}/timelines/reverse_chronological?max_results=100&tweet.fields=id,text,created_at`, {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -71,7 +71,7 @@ const GET = async (req: NextRequest, { params }: { params: { id: string } }) => 
     timelines.map((item: any) => ({
       updateOne: {
         filter: { id: item.id },
-        update: { $set: { text: item.text } },
+        update: { $set: { text: item.text, created_at: item.created_at } },
         upsert: true,
       },
     })),
