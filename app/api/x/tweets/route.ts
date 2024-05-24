@@ -3,12 +3,12 @@ import {connectToDatabase} from "@/utils/mongodb";
 
 const GET = async (req: NextRequest) => {
   const { db } = await connectToDatabase();
-  const users = await db.collection('tweets').find({}, {
+  const tweets = await db.collection('tweets').find({}, {
     limit: 100,
   }).toArray();
 
   return Response.json({
-    data: users,
+    data: tweets,
   }, {
     headers: {
       'Content-Type': 'application/json',
