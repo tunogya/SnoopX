@@ -67,12 +67,18 @@ const GET = async (req: NextRequest, { params }: { params: { id: string } }) => 
       .then((res) => res.data);
   }
 
-  await db.collection("tweets").insertMany(timelines.map((item: any) => ({
-    id: item.id,
-    text: item.text,
-  })), {
-    ordered: false,
-  });
+  await db.collection("tweets").bulkWrite(
+    timelines.map((item: any) => ({
+      updateOne: {
+        filter: { id: item.id },
+        update: { $set: { text: item.text } },
+        upsert: true,
+      },
+    })),
+    {
+      ordered: false,
+    }
+  );
 
   return Response.json({
     success: true,
