@@ -44,9 +44,9 @@ const GET = async (req: NextRequest, { params }: { params: { id: string } }) => 
         refresh_token: refresh_token,
       }),
     }).then((res) => res.json());
-    const new_access_token = requestToken.requestToken
 
-    // update access_token
+    const new_access_token = requestToken.access_token
+
     await db.collection("users").updateOne({
       id: params.id
     }, {
