@@ -30,7 +30,7 @@ c. TON chain and TON ecosystem projects;
 Trending Topics Include:
 a. AI-related Web3 applications.
 
-Use json to return your answer, such as: { data: "positive" } or { data: "negative" } or { data: "neutral" }.
+Use json to return your answer, such as: { symbol: "ETH", analysis: "positive" } or { symbol: "BTC", analysis: "negative" } or { symbol: "SOL", analysis: "neutral" }.
 `,
           },
           {
@@ -47,13 +47,14 @@ Use json to return your answer, such as: { data: "positive" } or { data: "negati
     });
 
     const requestData = await response.json();
-    const { data } = JSON.parse(requestData.choices[0].message.content);
+    const { symbol, analysis } = JSON.parse(requestData.choices[0].message.content);
 
     await db.collection("tweets").updateOne(
       { id },
       {
         $set: {
-          analysis: data,
+          symbol: symbol,
+          analysis: analysis,
         },
       }
     );
