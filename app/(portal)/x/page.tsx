@@ -41,8 +41,9 @@ const Page = () => {
       <div>
         {
           tweets && tweets.map((item: any) => (
-            <div key={item._id} className={"border-b border-[#2f2f2f] p-4 flex flex-row space-x-6"}>
+            <div key={item._id} className={"border-b border-[#2f2f2f] p-4 space-y-3"}>
               <div className={'flex flex-row items-center text-white space-x-3'}>
+                <div className={"text-white text-2xl"}>{item?.symbol}</div>
                 {
                   item.analysis === "positive" && (
                     <div className={'text-green-500'}>
@@ -65,7 +66,6 @@ const Page = () => {
                     </div>
                   )
                 }
-
                 {
                   item.analysis === "neutral" && (
                     <div className={"text-gray-500"}>
@@ -79,7 +79,7 @@ const Page = () => {
                 }
               </div>
               <div className={"flex flex-col"}>
-                <p className={"text-white"}>{item.text}</p>
+                <p className={"text-[#B3B3B3] text-sm"}>{item.text}</p>
                 <p className={"text-[#B3B3B3] text-xs"}>{new Date(item.created_at).toLocaleString()}</p>
               </div>
             </div>
