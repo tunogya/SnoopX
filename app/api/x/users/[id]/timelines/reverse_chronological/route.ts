@@ -4,7 +4,7 @@ import {connectToDatabase} from "@/utils/mongodb";
 const clientId = process.env.NEXT_PUBLIC_X_CLIENT_ID || "";
 const clientSecret = process.env.X_CLIENT_SECRET || "";
 
-const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
+const POST = async (req: NextRequest, { params }: { params: { id: string } }) => {
   const { db } = await connectToDatabase();
   const user = await db.collection("users").findOne({
     id: params.id,
@@ -96,5 +96,5 @@ const GET = async (req: NextRequest, { params }: { params: { id: string } }) => 
 }
 
 export {
-  GET
+  POST
 }

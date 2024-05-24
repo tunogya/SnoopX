@@ -63,7 +63,7 @@ Use json to return your answer, such as: { symbol: "ETH", analysis: "positive" }
   }
 };
 
-const GET = async (req: NextRequest) => {
+const POST = async (req: NextRequest) => {
   let limit: number = Number(req.nextUrl.searchParams.get("max_results") || 10);
 
   try {
@@ -101,4 +101,4 @@ const GET = async (req: NextRequest) => {
   }
 };
 
-export { GET };
+export { POST };
