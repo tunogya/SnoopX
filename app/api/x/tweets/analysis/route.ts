@@ -42,11 +42,14 @@ Use json to return your answer, such as: { symbol: "ETH", analysis: "positive" }
         n: 1,
         stream: false,
         max_tokens: 2048,
-        response_format: "json_object",
+        response_format: {
+          type: "json_object"
+        },
       }),
     });
 
     const requestData = await response.json();
+
     const { symbol, analysis } = JSON.parse(requestData.choices[0].message.content);
 
     await db.collection("tweets").updateOne(
