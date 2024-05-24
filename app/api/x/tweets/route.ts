@@ -4,10 +4,7 @@ import {connectToDatabase} from "@/utils/mongodb";
 const GET = async (req: NextRequest) => {
   const { db } = await connectToDatabase();
   const users = await db.collection('tweets').find({}, {
-    projection: {
-      id: 1,
-      text: 1,
-    }
+    limit: 100,
   }).toArray();
 
   return Response.json({

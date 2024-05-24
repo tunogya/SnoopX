@@ -43,6 +43,7 @@ const Page = () => {
           tweets && tweets.map((item: any) => (
             <div key={item._id} className={"flex flex-col p-4 border-b border-[#2f2f2f]"}>
               <p className={"text-white"}>{item.text}</p>
+              <p className={"text-[#B3B3B3] text-xs"}>{new Date(item.created_at).toLocaleString()}</p>
             </div>
           ))
         }
