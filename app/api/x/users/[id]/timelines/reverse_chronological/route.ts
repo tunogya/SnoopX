@@ -4,8 +4,8 @@ import {connectToDatabase} from "@/utils/mongodb";
 const clientId = process.env.NEXT_PUBLIC_X_CLIENT_ID || "";
 const clientSecret = process.env.X_CLIENT_SECRET || "";
 
-const POST = async (req: NextRequest, { params }: { params: { id: string } }) => {
-  const { db } = await connectToDatabase();
+const POST = async (req: NextRequest, {params}: { params: { id: string } }) => {
+  const {db} = await connectToDatabase();
   const user = await db.collection("users").findOne({
     id: params.id,
   })
@@ -22,17 +22,16 @@ const POST = async (req: NextRequest, { params }: { params: { id: string } }) =>
   const credentials = `${clientId}:${clientSecret}`;
 
   let timelines = [];
-  try {
-    timelines = await fetch(`https://api.twitter.com/2/users/${params.id}/timelines/reverse_chronological?max_results=100&tweet.fields=id,text,created_at`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        "Authorization": `Bearer ${access_token}`
-      },
-    }).then((res) => res.json())
-      .then((res) => res.data);
-  } catch (e) {
-    // use refresh_token to get new access_token
+  timelines = await fetch(`https://api.twitter.com/2/users/${params.id}/timelines/reverse_chronological?max_results=100&tweet.fields=id,text,created_at`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "Authorization": `Bearer ${access_token}`
+    },
+  }).then((res) => res.json())
+    .then((res) => res.data);
+
+  if (timelines === undefined) {
     const requestToken = await fetch(`https://api.twitter.com/2/oauth2/token`, {
       method: "POST",
       headers: {
@@ -44,9 +43,7 @@ const POST = async (req: NextRequest, { params }: { params: { id: string } }) =>
         refresh_token: refresh_token,
       }),
     }).then((res) => res.json());
-
     const new_access_token = requestToken.access_token
-
     await db.collection("users").updateOne({
       id: params.id
     }, {
@@ -71,8 +68,8 @@ const POST = async (req: NextRequest, { params }: { params: { id: string } }) =>
     await db.collection("tweets").bulkWrite(
       timelines.map((item: any) => ({
         updateOne: {
-          filter: { id: item.id },
-          update: { $set: { text: item.text, created_at: item.created_at } },
+          filter: {id: item.id},
+          update: {$set: {text: item.text, created_at: item.created_at}},
           upsert: true,
         },
       })),
