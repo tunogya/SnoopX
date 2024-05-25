@@ -5,6 +5,7 @@ const GET = async (req: NextRequest) => {
   let limit: number = Number(req.nextUrl.searchParams.get("max_results") || 100);
   const { db } = await connectToDatabase();
   const tweets = await db.collection('tweets').find({}, {
+    sort: { created_at: -1 },
     limit: limit,
   }).toArray();
 
