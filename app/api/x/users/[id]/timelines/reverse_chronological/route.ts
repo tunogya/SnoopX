@@ -31,18 +31,19 @@ const POST = async (req: NextRequest, {params}: { params: { id: string } }) => {
   }).then((res) => res.json())
     .then((res) => res.data);
 
-  if (timelines === undefined) {
+  if (!timelines) {
     const requestToken = await fetch(`https://api.twitter.com/2/oauth2/token`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        "Authorization": `Basic ${Buffer.from(credentials).toString('base64')}`
       },
       body: new URLSearchParams({
         grant_type: "refresh_token",
+        client_id: clientId,
         refresh_token: refresh_token,
       }),
     }).then((res) => res.json());
+
     const new_access_token = requestToken.access_token
     await db.collection("users").updateOne({
       id: params.id
