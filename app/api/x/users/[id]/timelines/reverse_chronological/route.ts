@@ -36,6 +36,7 @@ const POST = async (req: NextRequest, {params}: { params: { id: string } }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "Authorization": `Basic ${Buffer.from(credentials).toString('base64')}`
       },
       body: new URLSearchParams({
         grant_type: "refresh_token",
@@ -45,11 +46,13 @@ const POST = async (req: NextRequest, {params}: { params: { id: string } }) => {
     }).then((res) => res.json());
 
     const new_access_token = requestToken.access_token
+    const new_refresh_token = requestToken.refresh_token
     await db.collection("users").updateOne({
       id: params.id
     }, {
       $set: {
-        access_token: new_access_token
+        access_token: new_access_token,
+        refresh_token: new_refresh_token,
       }
     })
 
