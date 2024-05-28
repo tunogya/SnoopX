@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/mongodb";
-import redis from "@/utils/redis";
 
 const analyzeTweet = async (id: string, author_id: string, text: string, db: any) => {
   try {
@@ -53,13 +52,15 @@ Use json to return your answer, such as: { analysis: "positive" } or { analysis:
 
     const { analysis } = JSON.parse(requestData.choices[0].message.content);
 
-    const symbol = await redis.get(`symbol:${author_id}`);
+    const user = await db.collection("symbols").findOne({
+      id: author_id,
+    })
 
     await db.collection("tweets").updateOne(
       { id },
       {
         $set: {
-          symbol: symbol,
+          symbol: user.symbol,
           analysis: analysis,
         },
       }
