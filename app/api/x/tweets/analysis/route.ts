@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/mongodb";
+import redis from "@/utils/redis";
 
-const analyzeTweet = async (id: string, text: string, db: any) => {
+const analyzeTweet = async (id: string, author_id: string, text: string, db: any) => {
   try {
     const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
       method: "POST",
@@ -30,7 +31,7 @@ c. TON chain and TON ecosystem projects;
 Trending Topics Include:
 a. AI-related Web3 applications.
 
-Use json to return your answer, such as: { symbol: "ETH", analysis: "positive" } or { symbol: "BTC", analysis: "negative" } or { symbol: "SOL", analysis: "neutral" }.
+Use json to return your answer, such as: { analysis: "positive" } or { analysis: "negative" } or { analysis: "neutral" }.
 `,
           },
           {
@@ -50,7 +51,9 @@ Use json to return your answer, such as: { symbol: "ETH", analysis: "positive" }
 
     const requestData = await response.json();
 
-    const { symbol, analysis } = JSON.parse(requestData.choices[0].message.content);
+    const { analysis } = JSON.parse(requestData.choices[0].message.content);
+
+    const symbol = await redis.get(`symbol:${author_id}`);
 
     await db.collection("tweets").updateOne(
       { id },
@@ -88,7 +91,7 @@ const POST = async (req: NextRequest) => {
       })
     }
 
-    await Promise.all(tweets.map((tweet) => analyzeTweet(tweet.id, tweet.text, db)));
+    await Promise.all(tweets.map((tweet) => analyzeTweet(tweet.id, tweet.author_id, tweet.text, db)));
 
     return NextResponse.json(
       { data: "ok" },
