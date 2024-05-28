@@ -22,7 +22,7 @@ const POST = async (req: NextRequest, {params}: { params: { id: string } }) => {
   const credentials = `${clientId}:${clientSecret}`;
 
   let timelines = [];
-  timelines = await fetch(`https://api.twitter.com/2/users/${params.id}/timelines/reverse_chronological?max_results=100&tweet.fields=id,text,created_at`, {
+  timelines = await fetch(`https://api.twitter.com/2/users/${params.id}/timelines/reverse_chronological?max_results=100&tweet.fields=id,text,created_at,author_id`, {
     method: "GET",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -57,7 +57,7 @@ const POST = async (req: NextRequest, {params}: { params: { id: string } }) => {
     })
 
     // use access_token to get timelines
-    timelines = await fetch(`https://api.twitter.com/2/users/${params.id}/timelines/reverse_chronological?max_results=100&tweet.fields=id,text,created_at`, {
+    timelines = await fetch(`https://api.twitter.com/2/users/${params.id}/timelines/reverse_chronological?max_results=100&tweet.fields=id,text,created_at,author_id`, {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -73,7 +73,7 @@ const POST = async (req: NextRequest, {params}: { params: { id: string } }) => {
       timelines.map((item: any) => ({
         updateOne: {
           filter: {id: item.id},
-          update: {$set: {text: item.text, created_at: item.created_at}},
+          update: {$set: {text: item.text, created_at: item.created_at, author_id: item.author_id}},
           upsert: true,
         },
       })),
