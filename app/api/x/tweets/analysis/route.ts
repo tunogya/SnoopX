@@ -60,7 +60,7 @@ Use json to return your answer, such as: { analysis: "positive" } or { analysis:
       { id },
       {
         $set: {
-          symbol: user.symbol,
+          symbol: user?.symbol || "NULL",
           analysis: analysis,
         },
       }
