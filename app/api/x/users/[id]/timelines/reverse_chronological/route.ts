@@ -51,8 +51,8 @@ const POST = async (req: NextRequest, {params}: { params: { id: string } }) => {
       id: params.id
     }, {
       $set: {
-        access_token: new_access_token,
-        refresh_token: new_refresh_token,
+        access_token: new_access_token || null,
+        refresh_token: new_refresh_token || null,
       }
     })
 
@@ -73,7 +73,7 @@ const POST = async (req: NextRequest, {params}: { params: { id: string } }) => {
       timelines.map((item: any) => ({
         updateOne: {
           filter: {id: item.id},
-          update: {$set: {text: item.text, created_at: item.created_at, author_id: item.author_id}},
+          update: {$set: {text: item?.text || null, created_at: item?.created_at || null, author_id: item?.author_id || null}},
           upsert: true,
         },
       })),

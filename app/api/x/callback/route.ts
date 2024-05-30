@@ -48,13 +48,13 @@ const GET = async (req: NextRequest) => {
     { id: data.id },
     {
       $set: {
-        name: data.name,
-        username: data.username,
-        profile_image_url: data.profile_image_url,
-        token_type: requestToken.token_type,
-        access_token: requestToken.access_token,
-        scope: requestToken.scope,
-        refresh_token: requestToken.refresh_token,
+        name: data?.name || null,
+        username: data?.username || null,
+        profile_image_url: data?.profile_image_url || null,
+        token_type: requestToken?.token_type || null,
+        access_token: requestToken?.access_token || null,
+        scope: requestToken?.scope || null,
+        refresh_token: requestToken?.refresh_token || null,
       }
     },
     { upsert: true }

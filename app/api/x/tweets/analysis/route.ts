@@ -61,7 +61,7 @@ Use json to return your answer, such as: { analysis: "positive" } or { analysis:
       {
         $set: {
           symbol: user?.symbol || "NULL",
-          analysis: analysis,
+          analysis: analysis || null,
         },
       }
     );
