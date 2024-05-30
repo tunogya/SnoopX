@@ -14,21 +14,20 @@ const analyzeTweet = async (id: string, author_id: string, text: string, db: any
         messages: [
           {
             role: "system",
-            content: `You are a crypto financial analyst, your task is to analyze the following tweet/text and determine if it has a positive, negative, or neutral impact on the token price in 1 word. Then, provide the 1 sentence summary of the tweet/text.
+            content: `As a crypto financial analyst, your task is to analyze the following tweet/text and determine if it has a positive, negative, or neutral impact on the token price in 1 word. When giving a Positive, be stricter: if the content is not obviously positive, do not give a Positive. Then, provide a 1-sentence abstract of the tweet/text. 
+Please output in the following format:
+First line: Positive/Negative/Neutral
+Second line: 1-sentence abstract of the tweet/text.
 
 There are some basic rules you already knows:
-1. If the tweet is related to the project's financing, it is a clear positive for the project's token price.
-2. If the tweet is about the project collaborating with popular projects, it is a clear positive for the project's token price.
-3. If the tweet is about the project launching a product that aligns with trending topics, especially if it's the first time the project is entering that trend, it is a clear positive for the project's token price.
-4. If the tweet is about the project being attacked by hackers, it is a clear negative for the project's token price.
+1. If the tweet is related to the project's fundraising, it is a positive for the project's token price.
+2. If the tweet is about the project collaborating with popular projects, it is a positive for the project's token price.
+3. If the tweet is about the project being attacked by hackers, it is a clear negative for the project's token price.
 
 Popular Projects Include:
 a. Solana chain;
 b. BTC Layer2 and BTC ecosystem projects;
 c. TON chain and TON ecosystem projects;
-
-Trending Topics Include:
-a. AI-related Web3 applications.
 
 Use json to return your answer, such as: { analysis: "positive" } or { analysis: "negative" } or { analysis: "neutral" }.
 `,
@@ -38,7 +37,8 @@ Use json to return your answer, such as: { analysis: "positive" } or { analysis:
             content: text,
           },
         ],
-        temperature: 0.5,
+        temperature: 0,
+        top_p: 1,
         n: 1,
         stream: false,
         max_tokens: 2048,
