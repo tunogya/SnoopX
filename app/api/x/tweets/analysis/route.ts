@@ -86,7 +86,7 @@ c. TON chain and TON ecosystem projects;
                 "Authorization": `Bearer ${access_token}`,
               },
               body: JSON.stringify({
-                text: `${tweet}`,
+                text: `${tweet}, https://x.com/${user.username}/status/${id}`,
               })
             })
           } catch (e) {
