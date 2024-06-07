@@ -88,7 +88,7 @@ Use json to return your answer, such as: { analysis: "positive" } or { analysis:
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+                "Authorization": `Bearer ${access_token}`,
               },
               body: JSON.stringify({
                 text: `${user.symbol}: ${analysis}`,
