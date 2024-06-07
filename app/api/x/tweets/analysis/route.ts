@@ -37,8 +37,6 @@ Popular Projects Include:
 a. Solana chain;
 b. BTC Layer2 and BTC ecosystem projects;
 c. TON chain and TON ecosystem projects;
-
-Use json to return your answer, such as: { analysis: "positive" } or { analysis: "negative" } or { analysis: "neutral" }.
 `,
           },
           {
@@ -51,15 +49,12 @@ Use json to return your answer, such as: { analysis: "positive" } or { analysis:
         n: 1,
         stream: false,
         max_tokens: 2048,
-        response_format: {
-          type: "json_object"
-        },
       }),
     });
 
     const requestData = await response.json();
 
-    const { analysis } = JSON.parse(requestData.choices[0].message.content);
+    const tweet = requestData.choices[0].message.content;
 
     const user = await db.collection("symbols").findOne({
       id: author_id,
@@ -70,12 +65,12 @@ Use json to return your answer, such as: { analysis: "positive" } or { analysis:
       {
         $set: {
           symbol: user?.symbol || "NULL",
-          analysis: analysis || null,
+          analysis: tweet,
         },
       }
     );
 
-    if (user?.symbol && (analysis === "positive" || analysis === "negative")) {
+    if (user?.symbol) {
       const { success } = await ratelimit.limit(user.symbol);
       if (success) {
         const tweet_user = await db.collection("users").findOne({
@@ -91,7 +86,7 @@ Use json to return your answer, such as: { analysis: "positive" } or { analysis:
                 "Authorization": `Bearer ${access_token}`,
               },
               body: JSON.stringify({
-                text: `${user.symbol}: ${analysis}`,
+                text: tweet,
               })
             })
           } catch (e) {
