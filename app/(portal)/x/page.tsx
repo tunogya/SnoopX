@@ -4,7 +4,7 @@ import useSWR from "swr";
 
 const client_id = process.env.NEXT_PUBLIC_X_CLIENT_ID;
 const redirect_uri = process.env.NEXT_PUBLIC_X_CALLBACK_URL;
-const scope = "tweet.read%20users.read%20offline.access";
+const scope = "tweet.read%20tweet.write%20users.read%20offline.access";
 
 const Page = () => {
   const { data: users } = useSWR('/api/x/users', (url) => fetch(url).then((res) => res.json()).then((res) => res.data), {
