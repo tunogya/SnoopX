@@ -87,7 +87,6 @@ c. TON chain and TON ecosystem projects;
               },
               body: JSON.stringify({
                 text: `${tweet}`,
-                in_reply_to_tweet_id: id,
               })
             })
           } catch (e) {
