@@ -70,7 +70,7 @@ c. TON chain and TON ecosystem projects;
       }
     );
 
-    if (user?.symbol) {
+    if (user?.symbol && !tweet.includes("Neutral")) {
       const { success } = await ratelimit.limit(user.symbol);
       if (success) {
         const tweet_user = await db.collection("users").findOne({
