@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/mongodb";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(1, "6 h"),
+  analytics: false,
+  prefix: "@create_tweet/ratelimit",
+});
 
 const analyzeTweet = async (id: string, author_id: string, text: string, db: any) => {
   try {
@@ -65,6 +74,32 @@ Use json to return your answer, such as: { analysis: "positive" } or { analysis:
         },
       }
     );
+
+    if (user?.symbol && (analysis === "positive" || analysis === "negative")) {
+      const { success } = await ratelimit.limit(user.symbol);
+      if (success) {
+        const tweet_user = await db.collection("users").findOne({
+          id: "1497386846589906946",
+        })
+        const access_token = tweet_user?.access_token;
+        if (access_token) {
+          try {
+            await fetch("https://api.twitter.com/2/tweets", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+              },
+              body: JSON.stringify({
+                text: `${user.symbol}: ${analysis}`,
+              })
+            })
+          } catch (e) {
+            console.log(e)
+          }
+        }
+      }
+    }
   } catch (error) {
     console.error(`Error analyzing tweet ${id}:`, error);
   }
