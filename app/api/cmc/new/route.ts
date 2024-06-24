@@ -2,9 +2,16 @@ import {NextRequest} from "next/server";
 import redis from "@/utils/redis";
 
 const POST = async (req: NextRequest) => {
+  const random = Math.random();
+  let cmc_key = process.env.CMC_PRO_API_KEY || "";
+  if (random > 0.5) {
+    if (process.env.CMC_PRO_API_KEY2) {
+      cmc_key = process.env.CMC_PRO_API_KEY2
+    }
+  }
   const request = await fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=100&sort=date_added&sort_dir=desc`, {
     headers: {
-      "X-CMC_PRO_API_KEY": process.env.CMC_PRO_API_KEY || "",
+      "X-CMC_PRO_API_KEY": cmc_key,
     },
   }).then((res) => res.json());
   const current_date_added = await redis.get("latest_date_added") || "2024-06-24T00:00:00.000Z";
@@ -14,13 +21,11 @@ const POST = async (req: NextRequest) => {
       return true;
     }
   });
-
   if (data.length === 0) {
     return Response.json({
       data: "ok",
     })
   }
-
   try {
     const bot_token = process.env.TELEGRAM_BOT_TOKEN || "";
     const inline_keyboard_items = data.map((item: any) => ({
