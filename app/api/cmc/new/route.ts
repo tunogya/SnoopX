@@ -56,7 +56,7 @@ const POST = async (req: NextRequest) => {
       },
       body: JSON.stringify({
         chat_id: "@super_snoopx",
-        text: `There are ${data.length} new crypto currencies added!`,
+        text: `There are ${symbols.length} new crypto currencies added!`,
         reply_markup: {
           inline_keyboard: inline_keyboard,
         },
