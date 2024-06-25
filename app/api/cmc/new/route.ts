@@ -33,10 +33,15 @@ const POST = async (req: NextRequest) => {
       data: "ok",
     })
   }
+  const symbols = await fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?symbol=${data.map((item: any) => item.symbol).join(",")}`, {
+    headers: {
+      "X-CMC_PRO_API_KEY": cmc_key,
+    },
+  }).then((res) => res.json());
   try {
     const bot_token = process.env.TELEGRAM_BOT_TOKEN || "";
-    const inline_keyboard_items = data.map((item: any) => ({
-      text: `${item.name} - ${item.symbol}`,
+    const inline_keyboard_items = symbols.map((item: any) => ({
+      text: `${item.name}(${item?.platform?.name || "NaN"})`,
       url: `https://coinmarketcap.com/currencies/${item.slug}/`
     }));
     // 将 inline_keyboard 每2个为一组
