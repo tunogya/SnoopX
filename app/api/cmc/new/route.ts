@@ -16,7 +16,7 @@ const POST = async (req: NextRequest) => {
     })
   }
 
-  const request = await fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=100&sort=date_added&sort_dir=desc`, {
+  const request = await fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=100&sort=date_added&sort_dir=desc&aux=platform`, {
     headers: {
       "X-CMC_PRO_API_KEY": cmc_key,
     },
@@ -33,14 +33,9 @@ const POST = async (req: NextRequest) => {
       data: "ok",
     })
   }
-  const symbols = await fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?symbol=${data.map((item: any) => item.symbol).join(",")}`, {
-    headers: {
-      "X-CMC_PRO_API_KEY": cmc_key,
-    },
-  }).then((res) => res.json());
   try {
     const bot_token = process.env.TELEGRAM_BOT_TOKEN || "";
-    const inline_keyboard_items = symbols.map((item: any) => ({
+    const inline_keyboard_items = data.map((item: any) => ({
       text: `${item.name}(${item?.platform?.name || "NaN"})`,
       url: `https://coinmarketcap.com/currencies/${item.slug}/`
     }));
@@ -56,7 +51,7 @@ const POST = async (req: NextRequest) => {
       },
       body: JSON.stringify({
         chat_id: "@super_snoopx",
-        text: `There are ${symbols.length} new crypto currencies added!`,
+        text: `There are ${data.length} new crypto currencies added!`,
         reply_markup: {
           inline_keyboard: inline_keyboard,
         },
