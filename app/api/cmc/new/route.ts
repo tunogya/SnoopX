@@ -9,6 +9,13 @@ const POST = async (req: NextRequest) => {
       cmc_key = process.env.CMC_PRO_API_KEY2
     }
   }
+  const now = new Date();
+  if (now.getHours() < 9 || now.getHours() > 21) {
+    return Response.json({
+      data: "ok",
+    })
+  }
+
   const request = await fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=100&sort=date_added&sort_dir=desc`, {
     headers: {
       "X-CMC_PRO_API_KEY": cmc_key,
