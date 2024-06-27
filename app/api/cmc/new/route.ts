@@ -16,7 +16,7 @@ const POST = async (req: NextRequest) => {
     })
   }
 
-  const request = await fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=100&sort=date_added&sort_dir=desc&aux=platform`, {
+  const request = await fetch(`https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?limit=100&sort=date_added&sort_dir=desc&aux=platform,date_added`, {
     headers: {
       "X-CMC_PRO_API_KEY": cmc_key,
     },
@@ -24,7 +24,7 @@ const POST = async (req: NextRequest) => {
   const current_date_added = await redis.get("latest_date_added") || "2024-06-24T00:00:00.000Z";
   const data = request.data.filter((item: any) => {
     // @ts-ignore
-    if (new Date(item.last_updated) > new Date(current_date_added)) {
+    if (new Date(item.date_added) > new Date(current_date_added)) {
       return true;
     }
   });
@@ -57,8 +57,8 @@ const POST = async (req: NextRequest) => {
         },
       })
     });
-    const last_updated = data[0].last_updated;
-    await redis.set("latest_date_added", last_updated);
+    const date_added = data[0].date_added;
+    await redis.set("latest_date_added", date_added);
   } catch (e) {
     console.log(e)
   }
