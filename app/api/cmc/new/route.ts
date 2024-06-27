@@ -24,7 +24,7 @@ const POST = async (req: NextRequest) => {
   const current_date_added = await redis.get("latest_date_added") || "2024-06-24T00:00:00.000Z";
   const data = request.data.filter((item: any) => {
     // @ts-ignore
-    if (new Date(item.date_added) > new Date(current_date_added)) {
+    if (new Date(item.last_updated) > new Date(current_date_added)) {
       return true;
     }
   });
@@ -57,8 +57,8 @@ const POST = async (req: NextRequest) => {
         },
       })
     });
-    const latest_date_added = data[0].date_added;
-    await redis.set("latest_date_added", latest_date_added);
+    const last_updated = data[0].last_updated;
+    await redis.set("latest_date_added", last_updated);
   } catch (e) {
     console.log(e)
   }
