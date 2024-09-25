@@ -1,7 +1,9 @@
+'use client';
+
 const Page = () => {
   return (
-    <div>
-      Portal
+    <div className={"p-4"}>
+      Wallet
     </div>
   )
 }
