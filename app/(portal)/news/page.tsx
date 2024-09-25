@@ -3,7 +3,7 @@
 const Page = () => {
   return (
     <div className={"p-4"}>
-      <div className={"relative bg-red-500"}>
+      <div className={"relative"}>
         <input
           placeholder={"Search something..."}
           className={"border w-full h-10 px-2"}
