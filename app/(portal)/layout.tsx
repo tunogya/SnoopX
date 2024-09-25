@@ -11,7 +11,7 @@ const Layout = ({children}: { children: ReactNode }) => {
       <div className={"flex-1 overflow-scroll"}>
         {children}
       </div>
-      <div className={"h-20 border border-t flex items-center justify-around"}>
+      <div className={"h-20 border-t flex items-center justify-around"}>
         <Link className={""} href={"/news"} prefetch>
           News
         </Link>
