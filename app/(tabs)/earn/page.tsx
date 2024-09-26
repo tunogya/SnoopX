@@ -11,7 +11,7 @@ const Page = () => {
           {new Date().getFullYear()}, {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
         </div>
       </div>
-      <div className={"border rounded-lg mx-4 overflow-hidden bg-[#FF403A] text-white"}>
+      <div className={"rounded-lg mx-4 overflow-hidden bg-[#FF403A] text-white"}>
         <div className={"flex flex-col p-4"}>
           <div className={"text-sm"}>
             Earned Total
