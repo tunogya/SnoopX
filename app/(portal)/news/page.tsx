@@ -3,7 +3,7 @@
 const Page = () => {
   return (
     <div className={""}>
-      <div className={"flex flex-row space-x-2 items-center px-4 h-[50px]"}>
+      <div className={"sticky top-0 z-10 bg-white flex flex-row space-x-2 items-center px-4 h-[50px]"}>
         <div className={"relative w-full rounded-md bg-white overflow-hidden"}>
           <div
             className={"w-full h-8 pl-8 items-center flex text-sm bg-[#F4F5F7] text-[#333333] font-light"}
