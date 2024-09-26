@@ -47,11 +47,11 @@ const Layout = ({children}: { children: ReactNode }) => {
       <div className={"flex-1 overflow-scroll"}>
         {children}
       </div>
-      <div className={"h-16 border-t flex items-center justify-around"}>
+      <div className={"h-14 border-t flex items-center justify-around"}>
         {navItems.map((item) => (
           <Link
             key={item.href}
-            className={`flex flex-col items-center px-4 py-2 ${pathname === item.href ? 'text-blue-500' : 'text-gray-500'}`}
+            className={`flex flex-col items-center px-4 ${pathname === item.href ? 'text-blue-500' : 'text-gray-400'}`}
             href={item.href}
             prefetch
           >
