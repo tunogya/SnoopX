@@ -2,57 +2,59 @@
 
 const Page = () => {
   return (
-    <div className={"p-4"}>
-      <div className={"flex flex-col items-center justify-center py-8 border-b"}>
-        <div className={"text-2xl font-bold"}>
-          999999.99
-        </div>
-        <div className={"text-sm text-gray-500"}>
-          $SNOP
-        </div>
-      </div>
-      <div className={"flex flex-col border-b"}>
-        <div className={"py-4 flex flex-row justify-between items-center"}>
-          <div>
-            <div className={"text-sm"}>
-              Daily Check-in Rewards
-            </div>
-            <div className={"text-xs text-gray-500"}>
-              +500 $SNOP
-            </div>
+    <div>
+      <div className={"border rounded-xl m-4 overflow-hidden"}>
+        <div className={"text-xs p-2 text-black border-b flex flex-row justify-between"}>
+          <div className={"text-xs"}>
+            @tunogya
           </div>
-          <div className={"text-xs text-white bg-black px-4 py-2 rounded-full"}>
-            Claim
+          <div className={"text-xs font-light text-[#999999] text-right"}>
+            {new Date().getFullYear()}, {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
           </div>
         </div>
-        <div className={"py-4 flex flex-row justify-between items-center"}>
-          <div>
-            <div className={"text-sm"}>
-              Follow SnoopX on X
-            </div>
-            <div className={"text-xs text-gray-500"}>
-              +500 $SNOP
-            </div>
+        <div className={"flex flex-col items-center justify-center py-8"}>
+          <div className={"text-sm mb-2"}>
+            Earned Total
           </div>
-          <div className={"text-xs text-white bg-black px-4 py-2 rounded-full"}>
-            Claim
+          <div className={"text-3xl font-bold text-[#FF403A]"}>
+            999.99
+          </div>
+          <div className={"text-[11px] text-[#999999] font-light"}>
+            $SNO
           </div>
         </div>
       </div>
+      <div className={"flex flex-col"}>
+        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
+        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
+        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
+        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
+        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
+        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
+        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
+        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
+      </div>
+    </div>
+  )
+}
+
+const TaskItem = ({ title, reward, buttonText }: {
+  title: string;
+  reward: string;
+  buttonText: string;
+}) => {
+  return (
+    <div className={"px-4 py-2 flex flex-row justify-between items-center"}>
       <div>
-        <div className={"py-4 flex flex-row justify-between items-center"}>
-          <div>
-            <div className={"text-sm"}>
-              Invitee friends to Earn $SNOP
-            </div>
-            <div className={"text-xs text-gray-500"}>
-              View roles
-            </div>
-          </div>
-          <div className={"text-xs text-white bg-black px-4 py-2 rounded-full"}>
-            Invite
-          </div>
+        <div className={"text-[17.64px] leading-[24px] break-words"}>
+          {title}
         </div>
+        <div className={"text-[11px] text-[#FF403A] font-light"}>
+          {reward}
+        </div>
+      </div>
+      <div className={"text-[13px] text-white bg-[#FF403A] px-4 h-7 rounded-full flex items-center"}>
+        {buttonText}
       </div>
     </div>
   )
