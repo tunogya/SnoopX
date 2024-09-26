@@ -27,13 +27,8 @@ const Page = () => {
       <div className={"flex flex-col"}>
         <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
         <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
-        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
-        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
-        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
-        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
-        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
-        <TaskItem title={"Daily Check-in Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
       </div>
+      <TaskItem title={"Invitee Rewards"} reward={"+500 $SNO"} buttonText={"Claim"} />
     </div>
   )
 }
@@ -53,7 +48,7 @@ const TaskItem = ({ title, reward, buttonText }: {
           {reward}
         </div>
       </div>
-      <div className={"text-[13px] text-white bg-[#FF403A] px-4 h-7 rounded-full flex items-center"}>
+      <div className={"text-[13px] text-white bg-black px-4 h-7 rounded-full flex items-center"}>
         {buttonText}
       </div>
     </div>
