@@ -1,6 +1,9 @@
 import type {Metadata} from "next";
 import "tailwindcss/tailwind.css";
 import {ReactNode} from "react";
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: "SnoopX",
@@ -13,7 +16,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className={"h-full bg-white"}>
+    <html lang="en" className={`${inter.className} h-full bg-white`}>
     <body className={"h-full"}>{children}</body>
     </html>
   );
