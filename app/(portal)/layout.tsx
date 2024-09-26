@@ -23,7 +23,7 @@ const Layout = ({children}: { children: ReactNode }) => {
 
   return (
     <div className={'h-full overflow-scroll flex flex-col'}>
-      <div className={"flex-1 overflow-scroll overscroll-behavior-x-none overscroll-behavior-y-none"}>
+      <div className={"flex-1 overflow-scroll"}>
         {children}
       </div>
       <div className={"h-12 border-t flex items-center justify-around"}>
