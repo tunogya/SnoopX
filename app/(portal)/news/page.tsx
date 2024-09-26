@@ -1,15 +1,9 @@
 'use client';
 
-import Image from 'next/image';
-
-
 const Page = () => {
   return (
     <div className={""}>
       <div className={"flex flex-row space-x-2 items-center px-4 h-[50px]"}>
-        <div className={"h-8 w-8 min-w-8"}>
-          <Image src={"/snoopx.png"} alt={"logo"} width={32} height={32} className={"border border-[0.5px] rounded-md"}/>
-        </div>
         <div className={"relative w-full rounded-md bg-white overflow-hidden"}>
           <div
             className={"w-full h-8 pl-8 items-center flex text-sm bg-[#F4F5F7] text-[#333333] font-light"}
@@ -24,7 +18,7 @@ const Page = () => {
             </svg>
           </div>
         </div>
-        <div className={"flex items-center px-3 h-8 bg-[#FF403A] text-white rounded-md text-sm"}>
+        <div className={"flex items-center px-3 h-8 bg-[#FF403A] text-white rounded-md text-[13px]"}>
           POST
         </div>
       </div>
