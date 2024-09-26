@@ -18,13 +18,40 @@ const Page = () => {
             </svg>
           </div>
         </div>
-        <div className={"flex items-center px-3 h-8 bg-[#FF403A] text-white rounded-md text-[13px]"}>
+        <div className={"flex items-center px-3 h-7 bg-[#FF403A] text-white rounded-md text-[13px]"}>
           POST
         </div>
       </div>
       <div>
+        <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />
+        <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />
+        <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />
+        <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />
+        <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />
+        <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />
+        <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />
+        <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />
+        <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />
       </div>
     </div>
+  )
+}
+
+const FeedItem = ({ title, author, commentCount }: { title: string; author: string; commentCount: number }) => {
+  return (
+    <div className={"px-4 py-2"}>
+    <div className={"text-[17.64px] leading-[24px] break-words"}>
+      {title}
+    </div>
+    <div className={"flex flex-row space-x-1.5"}>
+      <div className={"text-[11px] text-[#999999] font-light"}>
+        @{author}
+      </div>
+      <div className={"text-[11px] text-[#999999] font-light"}>
+        {commentCount} comments
+      </div>
+    </div>
+  </div>
   )
 }
 
