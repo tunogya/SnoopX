@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.className} h-full bg-white`}>
-    <body className={"h-full"}>{children}</body>
+    <body className={"h-full overscroll-behavior-x-none overflow-x-hidden overflow-y-hidden overscroll-behavior-y-none"}>{children}</body>
     </html>
   );
 }
