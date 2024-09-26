@@ -3,7 +3,7 @@
 const Page = () => {
   return (
     <div>
-      <div className={"border rounded-xl m-4 overflow-hidden"}>
+      <div className={"border rounded-xl mx-4 my-2 overflow-hidden"}>
         <div className={"text-xs p-2 text-black border-b flex flex-row justify-between"}>
           <div className={"text-xs"}>
             @tunogya
