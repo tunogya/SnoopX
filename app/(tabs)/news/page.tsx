@@ -108,7 +108,7 @@ const UserFeed = ({ title, author, avatar, timestamp }: { title: string; author:
           <Image src={avatar} alt={author} width={32} height={32} className="rounded-full mr-3 bg-gray-200" />
         </div>
         <div>
-          <div className="font-medium text-[14px]">{author}</div>
+          <div className="font-medium text-sm">{author}</div>
           <div className="text-[12px] text-[#A1A3A6]">{timestamp}</div>
         </div>
       </div>
