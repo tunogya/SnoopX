@@ -3,6 +3,7 @@
 import {useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {useSearchParams} from 'next/navigation';
+import {Suspense} from 'react';
 
 declare global {
   interface Window {
@@ -82,8 +83,9 @@ export default function Home() {
 </div> : null
 
   return (
-    <div className="bg-telegram-bg">
-    <div className="flex items-center justify-start flex-col gap-2 h-[100vh] p-4 text-center">
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="bg-telegram-bg">
+        <div className="flex items-center justify-start flex-col gap-2 h-[100vh] p-4 text-center">
         {state.loginStatus === -1 && <div>
             <p className="text-lg font-bold text-telegram-text">Error, please open the page within Telegram</p>
         </div>}
@@ -95,5 +97,6 @@ export default function Home() {
         </footer>
     </div>
 </div>
+</Suspense>
   );
 }
