@@ -24,7 +24,7 @@ function HomeContent() {
     })
     
     const router = useRouter();
-    
+
     useEffect(() => {
         setState(state => {
             return {
@@ -67,6 +67,12 @@ function HomeContent() {
                 ...state,
                 loginStatus: -1
             }))
+        }
+    }, [])
+
+    useEffect(() => {
+        if (window.Telegram.WebApp) {
+            window.Telegram.WebApp.setHeaderColor('#ffffff')
         }
     }, [])
 
