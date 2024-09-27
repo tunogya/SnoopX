@@ -67,22 +67,36 @@ function HomeContent() {
         }
     }, [])
 
+    useEffect(() => {
+        if (state.loginStatus === 1 && state.tglogin.hash) {
+            // Here you would typically verify the hash server-side
+            // For this example, we'll assume the verification is successful
+            const isVerified = true; // This should be the result of your actual verification
+
+            if (isVerified) {
+                // Use Next.js router to navigate to the /news page
+                const router = require('next/router').default;
+                router.push('/news');
+            }
+        }
+    }, [state.loginStatus, state.tglogin.hash]);
+
     const Greetings = () => state.userProfile.first_name ? <div className="mb-4 text-lg font-bold text-slate-400">
         {`Welcome, ${state.userProfile.first_name}${state.userProfile.last_name ? ` ${state.userProfile.last_name}` : ''}`}
     </div> : null
 
     return (
         <div className="bg-telegram-bg">
-            <div className="flex items-center justify-start flex-col gap-2 h-[100vh] p-4 text-center">
+            <div className="flex flex-col gap-2 h-[100vh] p-4 text-center items-center justify-center">
+                <div className="text-5xl font-bold pb-4">
+                    SnoopX
+                </div>
                 {state.loginStatus === -1 && <div>
-                    <p className="text-lg font-bold text-telegram-text">Error, please open the page within Telegram</p>
+                    <p className="text-sm text-telegram-text">Error, please open the page within Telegram</p>
                 </div>}
                 {state.loginStatus === 1 && <div>
                     <Greetings />
                 </div>}
-                <footer className="absolute text-lg font-bold text-telegram-text bottom-1">
-                    Template WebApp bootstrapped using NextJS, Tailwind CSS and Telegraf.
-                </footer>
             </div>
         </div>
     )
