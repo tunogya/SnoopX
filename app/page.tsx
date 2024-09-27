@@ -96,12 +96,6 @@ function HomeContent() {
 }
 
 export default function Home() {
-    useEffect(() => {
-        if (window.Telegram.WebApp) {
-            window.Telegram.WebApp.setHeaderColor('#FF403A')
-        }
-    }, []);
-
     return (
         <div className="bg-telegram-bg h-full">
             <Suspense>
