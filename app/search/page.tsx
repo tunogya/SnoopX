@@ -26,11 +26,11 @@ const Page = () => {
                         value={search}
                         autoFocus
                         onChange={(e) => setSearch(e.target.value)}
-                        placeholder={"Search something..."}
-                        className={"w-full h-10 pl-8 items-center flex text-sm bg-[#F4F5F7] text-[#333333] focus:outline-none"}
+                        placeholder={"Search..."}
+                        className={"w-full h-10 pl-9 items-center flex text-[16px] bg-[#F4F5F7] text-black focus:outline-none"}
                     >
                     </input>
-                    <div className={"absolute top-0 left-0 h-10 flex items-center px-2 text-[#333333]"}>
+                    <div className={"absolute top-0 left-0 h-10 w-10 flex items-center justify-center text-[#333333]"}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                             stroke="currentColor" className="size-4">
                             <path stroke-linecap="round" stroke-linejoin="round"
