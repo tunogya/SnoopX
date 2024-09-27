@@ -1,9 +1,8 @@
 import type {Metadata} from "next";
-import "tailwindcss/tailwind.css";
 import {ReactNode} from "react";
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
-import './styles/globals.css'
+import './styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
