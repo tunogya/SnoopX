@@ -1,9 +1,6 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+"use client"
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 declare global {
     interface Window {
@@ -12,7 +9,6 @@ declare global {
 }
 
 export function HomeContent() {
-    const router = useRouter();
     const searchParams = useSearchParams()
     const params = searchParams.toString()
     const [state, setState] = useState({
@@ -27,7 +23,7 @@ export function HomeContent() {
     })
 
     useEffect(() => {
-        setState((state: any) => {
+        setState(state => {
             return {
                 ...state,
                 lang: navigator.language,
@@ -38,7 +34,7 @@ export function HomeContent() {
     useEffect(() => {
         if (window.Telegram.WebApp.initData) {
             const initDataRaw = decodeURIComponent(window.Telegram.WebApp.initData).split("&")
-            setState((state: any) => { return { ...state, initData: initDataRaw } })
+            setState(state => { return { ...state, initData: initDataRaw } })
             let initData: any = {}
             for (let i in initDataRaw) {
                 // initData[initDataRaw[i].split("=")[0]] = initDataRaw[i].split("=")[1]
@@ -57,26 +53,19 @@ export function HomeContent() {
                         break
                 }
             }
-            setState((state: any) => ({
+            setState(state => ({
                 ...state,
                 tglogin: initData,
                 userProfile: JSON.parse(initData.user),
                 loginStatus: 1
             }))
         } else {
-            setState((state: any) => ({
+            setState(state => ({
                 ...state,
                 loginStatus: -1
             }))
         }
-    }, []);
-
-
-    useEffect(() => {
-        if (state.loginStatus === 1) {
-            router.push('/news');
-        }
-    }, [router, state.loginStatus]);
+    }, [])
 
     const Greetings = () => state.userProfile.first_name ? <div className="mb-4 text-lg font-bold text-slate-400">
         {`Welcome, ${state.userProfile.first_name}${state.userProfile.last_name ? ` ${state.userProfile.last_name}` : ''}`}
@@ -92,17 +81,17 @@ export function HomeContent() {
                     <Greetings />
                 </div>}
                 <footer className="absolute text-lg font-bold text-telegram-text bottom-1">
-                    SnoopX
+                    Template WebApp bootstrapped using NextJS, Tailwind CSS and Telegraf.
                 </footer>
             </div>
         </div>
-    );
+    )
 }
 
 export default function Home() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <HomeContent />
-    </Suspense>
-  ) ;
+    return (
+        <Suspense>
+            <HomeContent />
+        </Suspense>
+    )
 }
