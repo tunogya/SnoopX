@@ -3,32 +3,19 @@
 const Page = () => {
   return (
     <div>
-      <div className={"text-xs px-4 py-2 text-black flex flex-row justify-between"}>
-        <div className={"text-xs"}>
-          @tunogya
-        </div>
-        <div className={"text-xs font-light text-[#999999] text-right"}>
-          {new Date().getFullYear()}, {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
-        </div>
+      <div className={"text-2xl font-medium px-4 py-4 text-center"}>
+        SnoopX
       </div>
-      <div className={"rounded-lg mx-4 overflow-hidden bg-[#FF403A] text-white"}>
-        <div className={"flex flex-col p-4"}>
-          <div className={"text-sm"}>
-            Earned Total
+      <div className={"flex flex-col p-2 bg-gray-100 mx-4 my-2 p-4 rounded-lg justify-between"}>
+        <div className={"flex flex-row items-center space-x-3"}>
+          <div className={"w-12 h-12 rounded-full bg-gray-200"}></div>
+          <div>
+            <div className={"text-sm font-medium"}>@tunogya</div>
+            <div className={"text-lg font-medium text-[#FF403A]"}>0 SNO</div>
           </div>
-          <div className={"flex flex-row justify-between items-center"}>
-            <div className={"text-[36px] font-medium h-[45px]"}>
-              999.99
-              <span className={"px-2 text-[11px]"}>
-                SNO
-              </span>
-            </div>
-            <div className={"text-white"}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-              </svg>
-            </div>
-          </div>
+        </div>
+        <div>
+
         </div>
       </div>
       <div className={"flex flex-col p-2"}>
