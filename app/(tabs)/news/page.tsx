@@ -40,8 +40,8 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className="h-[50px]"></div>
-      <div className="flex flex-row space-x-1 px-4 py-1 border-b space-x-3 font-medium overflow-x-scroll no-scrollbar">
+      <div className="h-[85px]"></div>
+      <div className="flex flex-row space-x-1 px-4 py-1 h-[35px] w-full border-b space-x-3 font-medium overflow-x-scroll no-scrollbar absolute top-[50px] bg-white">
         <div className="text-[#FF403A] border-b-2 border-[#FF403A]">BTC</div>
         <div>ETH</div>
         <div>SOL</div>
