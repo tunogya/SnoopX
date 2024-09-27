@@ -1,7 +1,9 @@
 import type {Metadata} from "next";
 import "tailwindcss/tailwind.css";
 import {ReactNode} from "react";
-import { Inter } from 'next/font/google'
+import { Inter } from 'next/font/google';
+import Script from 'next/script';
+import './styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.className} h-full bg-white`}>
-    <body className={"h-full overscroll-behavior-x-none overflow-x-hidden overflow-y-hidden overscroll-behavior-y-none"}>{children}</body>
+      <head>
+        <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
+      </head>
+      <body className={"h-full overscroll-behavior-x-none overflow-x-hidden overflow-y-hidden overscroll-behavior-y-none"}>{children}</body>
     </html>
   );
 }

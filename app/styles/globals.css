@@ -1,0 +1,11 @@
+:root {
+  --tg-theme-bg-color: #ffffff;
+  --tg-theme-text-color: #000000;
+  --tg-theme-link-color: #000000;
+  --tg-theme-button-color: #000000;
+  --tg-theme-button-text-color: #ffffff;
+
+  --tg-theme-secondary-bg-color: #ffffff;
+  --tg-theme-header-bg-color: #ffffff;
+  --tg-theme-bottom-bar-bg-color: #ffffff;
+}
