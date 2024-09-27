@@ -81,13 +81,13 @@ function HomeContent() {
         }
     }, [state.loginStatus, state.tglogin.hash]);
 
-    const Greetings = () => state.userProfile.first_name ? <div className="mb-4 text-lg font-bold text-slate-400">
+    const Greetings = () => state.userProfile.first_name ? <div className="text-sm text-telegram-text">
         {`Welcome, ${state.userProfile.first_name}${state.userProfile.last_name ? ` ${state.userProfile.last_name}` : ''}`}
     </div> : null
 
     return (
         <div className="bg-telegram-bg">
-            <div className="flex flex-col gap-2 h-[100vh] p-4 text-center items-center justify-center">
+            <div className="flex flex-col gap-2 p-4 text-center items-center pt-20">
                 <div className="text-5xl font-bold pb-4">
                     SnoopX
                 </div>
