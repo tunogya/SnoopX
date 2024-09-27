@@ -3,10 +3,10 @@
 const Page = () => {
   return (
     <div>
-      <div className={"text-2xl font-medium px-4 py-4 text-center"}>
-        SnoopX
+      <div className={"text-2xl font-medium px-4 pt-2 text-center"}>
+        Earn SnoopX on Telegram
       </div>
-      <div className={"flex flex-col p-2 bg-gray-100 mx-4 my-2 p-4 rounded-lg justify-between"}>
+      <div className={"flex flex-col p-2 bg-gray-100 mx-4 my-4 p-4 rounded-lg justify-between"}>
         <div className={"flex flex-row items-center space-x-3"}>
           <div className={"w-12 h-12 rounded-full bg-gray-200"}></div>
           <div>
