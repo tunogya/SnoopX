@@ -12,7 +12,7 @@ const Page = () => {
       }, []);
 
     return (
-        <div className="overflow-scroll">
+        <div className="overflow-scroll no-scrollbar">
             <div className={"px-2 pt-[4px] flex flex-row space-x-1 h-[50px]"}>
                 <Link href={"/news"}>
                 <div className={"cursor-pointer h-10 w-10 flex items-center justify-center"}>
