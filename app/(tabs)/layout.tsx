@@ -44,7 +44,7 @@ const Layout = ({children}: { children: ReactNode }) => {
             prefetch
           >
             {item.icon}
-            <div className={"text-sm font-medium text-center"}>
+            <div className={"text-[10px] font-medium text-center"}>
               {item.label}
             </div>
           </Link>

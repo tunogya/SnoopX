@@ -70,11 +70,11 @@ function HomeContent() {
         }
     }, [])
 
-    // useEffect(() => {
-    //     if (window.Telegram.WebApp) {
-    //         window.Telegram.WebApp.setHeaderColor('#ffffff')
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (window.Telegram.WebApp) {
+            window.Telegram.WebApp.setHeaderColor('#ffffff')
+        }
+    }, [])
 
     useEffect(() => {
         if (state.loginStatus === 1) {
@@ -87,7 +87,7 @@ function HomeContent() {
     </div> : null
 
     return (
-        <div className="bg-telegram-bg">
+        <div className="bg-telegram-bg h-full">
             <div className="flex flex-col gap-2 p-4 text-center items-center pt-20">
                 <div className="text-5xl font-bold pb-4">
                     SnoopX
