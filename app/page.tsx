@@ -8,7 +8,7 @@ declare global {
     }
 }
 
-export function HomeContent() {
+function HomeContent() {
     const searchParams = useSearchParams()
     const params = searchParams.toString()
     const [state, setState] = useState({
