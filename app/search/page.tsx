@@ -1,9 +1,15 @@
 'use client';
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Page = () => {
     const [search, setSearch] = useState<string>("");
+
+    useEffect(() => {
+        if (window.Telegram.WebApp) {
+          window.Telegram.WebApp.setHeaderColor('#FFFFFF')
+        }
+      }, []);
 
     return (
         <div>
