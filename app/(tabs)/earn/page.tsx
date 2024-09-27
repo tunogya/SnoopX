@@ -1,6 +1,13 @@
 'use client';
+import { useEffect } from "react";
 
 const Page = () => {
+  useEffect(() => {
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.setHeaderColor('#FFFFFF')
+    }
+  }, []);
+
   return (
     <div>
       <div className={"text-2xl font-medium px-4 pt-2 text-center"}>

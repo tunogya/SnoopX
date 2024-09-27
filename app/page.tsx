@@ -22,7 +22,7 @@ function HomeContent() {
         axiosError: {} as any,
         initData: [] as string[]
     })
-    
+
     const router = useRouter();
 
     useEffect(() => {
@@ -71,12 +71,6 @@ function HomeContent() {
     }, [])
 
     useEffect(() => {
-        if (window.Telegram.WebApp) {
-            window.Telegram.WebApp.setHeaderColor('#ffffff')
-        }
-    }, [])
-
-    useEffect(() => {
         if (state.loginStatus === 1) {
             router.push('/news');
         }
@@ -87,26 +81,32 @@ function HomeContent() {
     </div> : null
 
     return (
-        <div className="bg-telegram-bg h-full">
-            <div className="flex flex-col gap-2 p-4 text-center items-center pt-20">
-                <div className="text-5xl font-bold pb-4">
-                    SnoopX
-                </div>
-                {state.loginStatus === -1 && <div>
-                    <p className="text-sm text-telegram-text">Error, please open the page within Telegram</p>
-                </div>}
-                {state.loginStatus === 1 && <div>
-                    <Greetings />
-                </div>}
+        <div className="flex flex-col gap-2 p-4 text-center items-center pt-20">
+            <div className="text-5xl font-bold pb-4">
+                SnoopX
             </div>
+            {state.loginStatus === -1 && <div>
+                <p className="text-sm text-telegram-text">Error, please open the page within Telegram</p>
+            </div>}
+            {state.loginStatus === 1 && <div>
+                <Greetings />
+            </div>}
         </div>
     )
 }
 
 export default function Home() {
+    useEffect(() => {
+        if (window.Telegram.WebApp) {
+            window.Telegram.WebApp.setHeaderColor('#FF403A')
+        }
+    }, []);
+
     return (
-        <Suspense>
-            <HomeContent />
-        </Suspense>
+        <div className="bg-telegram-bg h-full">
+            <Suspense>
+                <HomeContent />
+            </Suspense>
+        </div>
     )
 }
