@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
 declare global {
     interface Window {
@@ -21,7 +22,9 @@ function HomeContent() {
         axiosError: {} as any,
         initData: [] as string[]
     })
-
+    
+    const router = useRouter();
+    
     useEffect(() => {
         setState(state => {
             return {
@@ -68,18 +71,10 @@ function HomeContent() {
     }, [])
 
     useEffect(() => {
-        if (state.loginStatus === 1 && state.tglogin.hash) {
-            // Here you would typically verify the hash server-side
-            // For this example, we'll assume the verification is successful
-            const isVerified = true; // This should be the result of your actual verification
-
-            if (isVerified) {
-                // Use Next.js router to navigate to the /news page
-                const router = require('next/router').default;
-                router.push('/news');
-            }
+        if (state.loginStatus === 1) {
+            router.push('/news');
         }
-    }, [state.loginStatus, state.tglogin.hash]);
+    }, [state.loginStatus, router]);
 
     const Greetings = () => state.userProfile.first_name ? <div className="text-sm text-telegram-text">
         {`Welcome, ${state.userProfile.first_name}${state.userProfile.last_name ? ` ${state.userProfile.last_name}` : ''}`}
