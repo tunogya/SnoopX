@@ -11,7 +11,7 @@ const Page = () => {
 
   return (
     <div className="overflow-scroll">
-      <div className={"bg-[#FF403A] flex flex-row space-x-3 px-4 h-[46px] absolute top-0 w-full"}>
+      <div className={"bg-[#FF403A] flex flex-row space-x-3 px-4 pt-[4px] h-[50px] absolute top-0 w-full"}>
         <Link href={"/search"} prefetch className={"flex-1"}>
           <div className={"relative w-full rounded-full bg-white overflow-hidden"}>
             <div
@@ -39,7 +39,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className="h-[46px]"></div>
+      <div className="h-[50px]"></div>
       <div className="">
         <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />
         <FeedItem title={"THIS HISTORIC #BITCOIN BUY SIGNAL IS FLASHING NOW!!!"} author={"GuncelKriptoCom"} commentCount={11} />

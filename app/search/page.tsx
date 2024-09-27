@@ -13,7 +13,7 @@ const Page = () => {
 
     return (
         <div className="overflow-scroll">
-            <div className={"px-2 flex flex-row space-x-1 h-[46px]"}>
+            <div className={"px-2 pt-[4px] flex flex-row space-x-1 h-[50px]"}>
                 <Link href={"/news"}>
                 <div className={"cursor-pointer h-10 w-10 flex items-center justify-center"}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
