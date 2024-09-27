@@ -69,13 +69,13 @@ After that, the path to testing the ATH will be open.`} author={"GuncelKriptoCom
         <UserFeed title={`Bitcoin is having its best September so far.
 BTC$BTC is up 11% in the past 27 days and is just 10% away from breaking ATH levels.
 This is setting up for an explosive Uptober.
-Bears are in disbelief.`} author={"Lark Davis"} avatar={"/avatar.png"} timestamp={"2 hours ago"} />
-        <UserFeed title={"The last 2 times this signal flashed, #Bitcoin pumped. Will history repeat?"} author={"GuncelKriptoCom"} avatar={"/avatar.png"} timestamp={"2 hours ago"} />
+Bears are in disbelief.`} author={"Lark Davis"} avatar={"https://s3.coinmarketcap.com/static-gravity/image/0822c59e47954c93aab62bca4b546108.jpeg"} timestamp={"2 hours ago"} />
+        <UserFeed title={"The last 2 times this signal flashed, #Bitcoin pumped. Will history repeat?"} author={"GuncelKriptoCom"} avatar={"https://s3.coinmarketcap.com/static-gravity/image/6d4f50487204477c8467ecd4431011aa.jpg"} timestamp={"2 hours ago"} />
         <UserFeed title={`Bitcoin is having its best September so far.
 BTC$BTC is up 11% in the past 27 days and is just 10% away from breaking ATH levels.
 This is setting up for an explosive Uptober.
-Bears are in disbelief.`} author={"Lark Davis"} avatar={"/avatar.png"} timestamp={"2 hours ago"} />
-        <UserFeed title={"The last 2 times this signal flashed, #Bitcoin pumped. Will history repeat?"} author={"GuncelKriptoCom"} avatar={"/avatar.png"} timestamp={"2 hours ago"} />
+Bears are in disbelief.`} author={"Lark Davis"} avatar={"https://s3.coinmarketcap.com/static-gravity/image/49b7af058e6f4718baf08e6b5b27ea60.png"} timestamp={"2 hours ago"} />
+        <UserFeed title={"The last 2 times this signal flashed, #Bitcoin pumped. Will history repeat?"} author={"GuncelKriptoCom"} avatar={"https://s3.coinmarketcap.com/static-gravity/image/aea2bd11413c48a68740557456fe432d.jpg"} timestamp={"2 hours ago"} />
       </div>
       <div className="h-20"></div>
     </div>
@@ -105,7 +105,7 @@ const UserFeed = ({ title, author, avatar, timestamp }: { title: string; author:
     <div className="px-4 py-3 border-b">
       <div className="flex items-center mb-2 space-x-2">
         <div className="w-8 h-8 rounded-full bg-gray-200">
-          {/* <Image src={avatar} alt={author} width={32} height={32} className="rounded-full mr-3 bg-gray-200" /> */}
+          <Image src={avatar} alt={author} width={32} height={32} className="rounded-full mr-3 bg-gray-200" />
         </div>
         <div>
           <div className="font-medium text-[14px]">{author}</div>
