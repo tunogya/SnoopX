@@ -70,11 +70,11 @@ function HomeContent() {
         }
     }, [])
 
-    useEffect(() => {
-        if (window.Telegram.WebApp) {
-            window.Telegram.WebApp.setHeaderColor('#ffffff')
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (window.Telegram.WebApp) {
+    //         window.Telegram.WebApp.setHeaderColor('#ffffff')
+    //     }
+    // }, [])
 
     useEffect(() => {
         if (state.loginStatus === 1) {
