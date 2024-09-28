@@ -12,7 +12,7 @@ const Page = () => {
 
   return (
     <div className="overflow-scroll no-scrollbar">
-      <div className={"bg-[#FF403A] flex flex-row space-x-3 px-4 pt-[4px] h-[50px] absolute top-0 w-full"}>
+      <div className={"bg-[#FF403A] flex flex-row space-x-3 px-4 pt-[4px] h-[50px] absolute top-0 w-full z-10"}>
         <Link href={"/search"} prefetch className={"flex-1"}>
           <div className={"relative w-full rounded-full bg-white overflow-hidden"}>
             <div
