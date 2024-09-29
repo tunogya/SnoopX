@@ -1,9 +1,11 @@
 'use client';
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
     const [search, setSearch] = useState<string>("");
+    const router = useRouter();
 
     useEffect(() => {
         if (window.Telegram.WebApp) {
@@ -15,15 +17,10 @@ const Page = () => {
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.BackButton.show();
             window.Telegram.WebApp.BackButton.onClick(() => {
-                window.location.href = '/news';
+                router.back();
             });
         }
-        return () => {
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.BackButton.hide();
-            }
-        };
-    }, []);
+    }, [router]);
 
     return (
         <div className="overflow-scroll no-scrollbar">

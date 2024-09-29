@@ -1,10 +1,20 @@
 'use client';
 import { ReactNode, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
   const pathname = usePathname()
+
+  useEffect(() => {
+    if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.BackButton.show();
+        window.Telegram.WebApp.BackButton.onClick(() => {
+            router.back();
+        });
+    }
+}, [router]);
 
   const navItems = [
     {
