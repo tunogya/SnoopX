@@ -2,6 +2,11 @@
 import { useEffect } from "react";
 
 const Page = () => {
+    useEffect(() => {
+        if (window.Telegram.WebApp) {
+            window.Telegram.WebApp.setHeaderColor('#FFFFFF')
+        }
+    }, []);
 
     return (
         <div className="overflow-scroll no-scrollbar">
