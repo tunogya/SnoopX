@@ -72,9 +72,6 @@ function HomeContent() {
 
     useEffect(() => {
         if (state.loginStatus === 1) {
-            if (window.Telegram?.WebApp && !window.Telegram.WebApp.isExpanded) {
-                window.Telegram.WebApp.expand();
-            }
             router.push('/news');
         }
     }, [state.loginStatus, router]);

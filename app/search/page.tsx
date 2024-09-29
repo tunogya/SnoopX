@@ -25,12 +25,6 @@ const Page = () => {
         };
     }, []);
 
-    useEffect(() => {
-        if (window.Telegram.WebApp.isExpanded) {
-            window.Telegram.WebApp.expand()
-        }
-    }, [])
-
     return (
         <div className="overflow-scroll no-scrollbar">
             <div className={"px-4 pt-[4px] flex flex-row space-x-3 h-[50px]"}>
