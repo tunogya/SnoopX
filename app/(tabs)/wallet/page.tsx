@@ -13,6 +13,7 @@ const Page = () => {
       <div className={"p-4 text-center font-bold"}>
         Wallet Connect<br />Comming Soon
       </div>
+      <div className="h-20"></div>
     </div>
   )
 }

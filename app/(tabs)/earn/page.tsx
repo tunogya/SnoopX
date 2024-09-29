@@ -46,6 +46,7 @@ const Page = () => {
         <TaskItem title={"Daily Check-in Rewards"} reward={"+500 SNO"} buttonText={"Claim"} />
         <TaskItem title={"Daily Check-in Rewards"} reward={"+500 SNO"} buttonText={"Claim"} />
       </div>
+      <div className="h-20"></div>
     </div>
   )
 }
