@@ -72,15 +72,12 @@ function HomeContent() {
 
     useEffect(() => {
         if (state.loginStatus === 1) {
+            if (window.Telegram?.WebApp && !window.Telegram.WebApp.isExpanded) {
+                window.Telegram.WebApp.expand();
+            }
             router.push('/news');
         }
     }, [state.loginStatus, router]);
-
-    useEffect(() => {
-        if (window.Telegram?.WebApp && !window.Telegram.WebApp.isExpanded) {
-            window.Telegram.WebApp.expand();
-        }
-    }, []);
 
     const Greetings = () => state.userProfile.first_name ? <div className="text-sm text-telegram-text">
         {`Welcome, ${state.userProfile.first_name}${state.userProfile.last_name ? ` ${state.userProfile.last_name}` : ''}`}

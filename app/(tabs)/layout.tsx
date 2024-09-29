@@ -50,12 +50,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
     }
   ]
 
-  useEffect(() => {
-    if (window.Telegram?.WebApp && !window.Telegram.WebApp.isExpanded) {
-      window.Telegram.WebApp.expand();
-    }
-  }, []);
-
   return (
     <div className={'h-full flex flex-col relative'}>
       {children}
