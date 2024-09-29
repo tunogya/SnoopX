@@ -76,6 +76,12 @@ function HomeContent() {
         }
     }, [state.loginStatus, router]);
 
+    useEffect(() => {
+        if (window.Telegram.WebApp.isExpanded) {
+            window.Telegram.WebApp.expand()
+        }
+    }, [])
+
     const Greetings = () => state.userProfile.first_name ? <div className="text-sm text-telegram-text">
         {`Welcome, ${state.userProfile.first_name}${state.userProfile.last_name ? ` ${state.userProfile.last_name}` : ''}`}
     </div> : null
