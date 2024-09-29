@@ -5,16 +5,7 @@ import Link from "next/link";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
-  const pathname = usePathname()
-
-  useEffect(() => {
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.BackButton.show();
-        window.Telegram.WebApp.BackButton.onClick(() => {
-            router.back();
-        });
-    }
-}, [router]);
+  const pathname = usePathname();
 
   const navItems = [
     {

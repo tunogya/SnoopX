@@ -9,22 +9,21 @@ const Page = () => {
 
     useEffect(() => {
         if (window.Telegram.WebApp) {
-          window.Telegram.WebApp.setHeaderColor('#FFFFFF')
+            window.Telegram.WebApp.setHeaderColor('#FFFFFF')
         }
-      }, []);
-
-    useEffect(() => {
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.BackButton.show();
-            window.Telegram.WebApp.BackButton.onClick(() => {
-                router.back();
-            });
-        }
-    }, [router]);
+    }, []);
 
     return (
         <div className="overflow-scroll no-scrollbar">
             <div className={"px-4 pt-[4px] flex flex-row space-x-3 h-[50px]"}>
+                <div
+                    className={"flex-1 h-10 flex items-center justify-center"}
+                    onClick={() => router.back()}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+                        <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clip-rule="evenodd" />
+                    </svg>
+                </div>
                 <div className={"relative w-full rounded-full bg-white overflow-hidden h-10"}>
                     <input
                         value={search}
