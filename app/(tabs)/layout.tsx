@@ -50,6 +50,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
             className={`flex flex-col items-center ${pathname === item.href ? 'text-[#FF403A]' : 'text-black'} h-full w-full items-center justify-center`}
             href={item.href}
             prefetch
+            onClick={() => {
+              if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+              }
+            }}
           >
             {pathname === item.href ? item.activeIcon : item.icon}
             <div className={"text-[10px] font-medium text-center"}>
