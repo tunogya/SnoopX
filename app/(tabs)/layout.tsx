@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -49,6 +49,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
       </svg>,
     }
   ]
+
+  useEffect(() => {
+    if (window.Telegram?.WebApp && !window.Telegram.WebApp.isExpanded) {
+      window.Telegram.WebApp.expand();
+    }
+  }, []);
 
   return (
     <div className={'h-full flex flex-col relative'}>

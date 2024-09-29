@@ -1,4 +1,8 @@
+'use client';
+import { useEffect } from "react";
+
 const Page = () => {
+
     return (
         <div className="overflow-scroll no-scrollbar">
             <div className={"text-3xl font-medium px-6 py-4 text-center"}>
