@@ -54,7 +54,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <div className={'h-full flex flex-col relative'}>
       {children}
-      <div className={"h-14 bg-white flex items-center justify-around absolute bottom-0 w-full z-10"}>
+      <div className={"h-14 bg-white flex items-center justify-around absolute bottom-0 w-full z-50"}>
         {navItems.map((item) => (
           <Link
             key={item.href}
