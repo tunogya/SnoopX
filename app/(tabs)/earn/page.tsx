@@ -11,7 +11,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="overflow-scroll no-scrollbar">
+    <div className="">
       <div className={"py-10 space-y-2 px-6"}>
         <div className="h-20"></div>
         <div className={"text-[40px] font-medium text-center"}>
@@ -46,7 +46,6 @@ const Page = () => {
         <TaskItem title={"Daily Check-in Rewards"} reward={"+500 SNO"} buttonText={"Claim"} />
         <TaskItem title={"Daily Check-in Rewards"} reward={"+500 SNO"} buttonText={"Claim"} />
       </div>
-      <div className="h-20"></div>
     </div>
   )
 }

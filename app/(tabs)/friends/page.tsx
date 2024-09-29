@@ -9,7 +9,7 @@ const Page = () => {
     }, []);
 
     return (
-        <div className="overflow-scroll no-scrollbar">
+        <div className="">
             <div className={"text-3xl font-medium px-6 py-4 text-center"}>
                 Invite frens
                 <br />
@@ -22,7 +22,6 @@ const Page = () => {
                     Invite frens
                 </div>
             </div>
-            <div className="h-20"></div>
         </div>
     )
 }

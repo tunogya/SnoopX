@@ -11,7 +11,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="overflow-scroll no-scrollbar">
+    <div className="">
       <div className={"bg-[#FF403A] flex flex-row space-x-3 px-4 pt-[4px] h-[50px] absolute top-0 w-full z-10"}>
         <Link href={"/search"} prefetch className={"flex-1"}>
           <div className={"relative w-full rounded-full bg-white overflow-hidden"}>
@@ -71,7 +71,6 @@ This is setting up for an explosive Uptober.
 Bears are in disbelief.`} author={"Lark Davis"} avatar={"https://s3.coinmarketcap.com/static-gravity/image/49b7af058e6f4718baf08e6b5b27ea60.png"} timestamp={"2 hours ago"} />
         <UserFeed title={"The last 2 times this signal flashed, #Bitcoin pumped. Will history repeat?"} author={"GuncelKriptoCom"} avatar={"https://s3.coinmarketcap.com/static-gravity/image/aea2bd11413c48a68740557456fe432d.jpg"} timestamp={"2 hours ago"} />
       </div>
-      <div className="h-20"></div>
     </div>
   )
 }
