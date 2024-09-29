@@ -10,12 +10,12 @@ const Page = () => {
 
   return (
     <div>
-      <div className={"py-10 space-y-3"}>
+      <div className={"py-10 space-y-2 px-6"}>
         <div className="h-20"></div>
-        <div className={"text-[40px] font-medium px-4 text-center"}>
+        <div className={"text-[40px] font-medium text-center"}>
           818 SNO
         </div>
-        <div className={"flex flex-row justify-around px-4"}>
+        <div className={"flex flex-row justify-around"}>
           <div>
             <div className={"text-[13px] text-[#666666] text-center"}>Rewards</div>
             <div className={"font-medium text-black text-center"}>+818</div>
@@ -30,17 +30,17 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className={"text-2xl font-medium px-4"}>
+      <div className={"text-2xl font-medium px-6"}>
         Daily Tasks
       </div>
-      <div className={"flex flex-col px-4 py-2 space-y-2"}>
+      <div className={"flex flex-col px-6 py-4 space-y-3"}>
         <TaskItem title={"Daily Check-in Rewards"} reward={"+500 SNO"} buttonText={"Claim"} />
         <TaskItem title={"Daily Check-in Rewards"} reward={"+500 SNO"} buttonText={"Claim"} />
       </div>
-      <div className={"text-2xl font-medium px-4"}>
+      <div className={"text-2xl font-medium px-6"}>
         Tasks
       </div>
-      <div className={"flex flex-col px-4 py-2 space-y-2"}>
+      <div className={"flex flex-col px-6 py-4 space-y-3"}>
         <TaskItem title={"Daily Check-in Rewards"} reward={"+500 SNO"} buttonText={"Claim"} />
         <TaskItem title={"Daily Check-in Rewards"} reward={"+500 SNO"} buttonText={"Claim"} />
       </div>
@@ -54,7 +54,7 @@ const TaskItem = ({ title, reward, buttonText }: {
   buttonText: string;
 }) => {
   return (
-    <div className={"p-3 flex flex-row items-center w-full overflow-hidden border rounded-lg"}>
+    <div className={"p-3 flex flex-row items-center w-full overflow-hidden border rounded-lg border-[#E4E3E8]"}>
       <div className={"flex flex-col flex-1 min-w-0 mr-2 space-y-1"}>
         <div className={"truncate"}>
           {title}
@@ -63,7 +63,7 @@ const TaskItem = ({ title, reward, buttonText }: {
           {reward}
         </div>
       </div>
-      <div className={"text-[13px] text-white bg-black font-medium border px-4 py-1.5 rounded-full flex items-center flex-shrink-0"}>
+      <div className={"text-white bg-black border px-4 h-8 rounded-full flex items-center flex-shrink-0"}>
         {buttonText}
       </div>
     </div>
