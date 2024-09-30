@@ -2,7 +2,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
-import { generateSecretKey, getPublicKey } from 'nostr-tools/pure';
+import { generateSecretKey, getPublicKey, finalizeEvent } from 'nostr-tools/pure';
 import { bytesToHex, hexToBytes } from '@noble/hashes/utils';
 
 declare global {
@@ -74,16 +74,37 @@ function HomeContent() {
 
     useEffect(() => {
         if (state.loginStatus === 1) {
-            // get from local storage, for skHex
-            const skHex = localStorage.getItem('skHex');
-            if (!skHex) {
-                const { secretKey } = generateNostrKeys();
-                const _skHex = bytesToHex(secretKey);
-                localStorage.setItem('skHex', _skHex);
-            }
+            (async () => {
+                const skHex = await window.Telegram.WebApp.CloudStorage.getItem('skHex');
+                if (!skHex) {
+                    const { secretKey } = generateNostrKeys();
+                    const _skHex = bytesToHex(secretKey);
+                    await window.Telegram.WebApp.CloudStorage.setItem('skHex', _skHex);
+                }
+                const sk = hexToBytes(skHex);
+                const event = finalizeEvent({
+                    kind: 0,
+                    created_at: Math.floor(Date.now() / 1000),
+                    content: JSON.stringify({
+                        name: state.userProfile.username,
+                        picture: state.userProfile.photo_url,
+                        bot: state.userProfile.is_bot,
+                    }),
+                    tags: [
+                        ["id", state.userProfile.id],
+                        ["allows_write_to_pm", state.userProfile.allows_write_to_pm],
+                        ["language_code", state.userProfile.language_code],
+                        ["is_premium", state.userProfile.is_premium],
+                    ],
+                }, sk);
+                await fetch("/api/event", {
+                    method: "POST",
+                    body: JSON.stringify(event),
+                });
+            })();
             router.push('/news');
         }
-    }, [state.loginStatus, router]);
+    }, [state, router]);
 
     useEffect(() => {
         if (window.Telegram.WebApp) {
@@ -98,7 +119,7 @@ function HomeContent() {
     };
 
     const Greetings = () => state.userProfile.first_name ? <div className="text-sm text-telegram-text">
-        {`Welcome, ${state.userProfile.first_name}${state.userProfile.last_name ? ` ${state.userProfile.last_name}` : ''}`}
+        {`Welcome, ${state.userProfile.username}`}
     </div> : null
 
     return (
