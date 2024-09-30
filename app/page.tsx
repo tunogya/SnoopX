@@ -2,6 +2,8 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
+import { generateSecretKey, getPublicKey } from 'nostr-tools/pure';
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils';
 
 declare global {
     interface Window {
@@ -72,6 +74,13 @@ function HomeContent() {
 
     useEffect(() => {
         if (state.loginStatus === 1) {
+            // get from local storage, for skHex
+            const skHex = localStorage.getItem('skHex');
+            if (!skHex) {
+                const { secretKey } = generateNostrKeys();
+                const _skHex = bytesToHex(secretKey);
+                localStorage.setItem('skHex', _skHex);
+            }
             router.push('/news');
         }
     }, [state.loginStatus, router]);
@@ -81,6 +90,12 @@ function HomeContent() {
             window.Telegram.WebApp.expand()
         }
     }, [])
+
+    const generateNostrKeys = () => {
+        const secretKey = generateSecretKey();
+        const publicKey = getPublicKey(secretKey);
+        return { secretKey, publicKey };
+    };
 
     const Greetings = () => state.userProfile.first_name ? <div className="text-sm text-telegram-text">
         {`Welcome, ${state.userProfile.first_name}${state.userProfile.last_name ? ` ${state.userProfile.last_name}` : ''}`}
