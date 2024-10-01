@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyEvent } from 'nostr-tools';
 import snsClient from "../../../utils/snsClient";
 import { PublishCommand } from "@aws-sdk/client-sns";
+import redisClient from "../../../utils/redisClient";
 
 export async function POST(req: NextRequest) {
     try {
@@ -16,14 +17,15 @@ export async function POST(req: NextRequest) {
             tags,
             sig
         });
+        // 检查事件是否有效
         if (!isValid) {
             return NextResponse.json(["OK", id, false, `invalid: Invalid event`]);
         }
-        // 事件是否已经处理过？
-        // use redis to check if the event has been processed
-        // if (redisClient.get(id)) {
-        //     return NextResponse.json(["OK", id, false, `duplicate: Event has been processed.`]);
-        // }
+        // 检查事件是否已经处理过？
+        const _event = await redisClient.get(`event:${id}`);
+        if (_event) {
+            return NextResponse.json(["OK", id, false, `duplicate: Event has been processed.`]);
+        }
 
         // 将事件传入AWS SNS
         const result = await snsClient.send(
@@ -52,6 +54,8 @@ export async function POST(req: NextRequest) {
         );
 
         if (result.MessageId) {
+            // 将事件写入redis 7天
+            await redisClient.set(`event:${id}`, true, { ex: 60 * 60 * 24 * 7 });
             return NextResponse.json(["OK", id, true, `Event received successfully.`]);
         } else {
             return NextResponse.json(["OK", id, false, `error: SNS send error.`]);
