@@ -21,19 +21,16 @@ const Page = () => {
                 console.log("No Telegram WebApp");
                 sk = generateSecretKey();
             }
-            console.log(sk);
             const event = finalizeEvent({
                 kind: 1,
                 content: content,
                 tags: [],
                 created_at: Math.floor(Date.now() / 1000),
             }, sk);
-            console.log(event);
             const res = await fetch("/api/event", {
                 method: "POST",
                 body: JSON.stringify(event),
             }).then(res => res.json());
-            console.log(res);
             router.back();
         } catch (e) {
             console.log(e);
