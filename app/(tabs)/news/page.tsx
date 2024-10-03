@@ -1,8 +1,19 @@
 'use client';
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import UserFeed from "./UserFeed";
+import useSWR from "swr";
 const Page = () => {
+  const [events, setEvents] = useState([]);
+  const { data } = useSWR("/api/req", (url) => fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      
+    })
+  }).then(res => res.json()));
+
+  console.log(data);
+
   useEffect(() => {
     if (window.Telegram.WebApp) {
       window.Telegram.WebApp.setHeaderColor('#FF403A')

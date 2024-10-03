@@ -19,12 +19,12 @@ export async function POST(req: NextRequest) {
         });
         // 检查事件是否有效
         if (!isValid) {
-            return NextResponse.json(["OK", id, false, `invalid: Invalid event`]);
+            return NextResponse.json({ ok: false, id, message: "Invalid event" });
         }
         // 检查事件是否已经处理过？
         const _event = await redisClient.get(`event:${id}`);
         if (_event) {
-            return NextResponse.json(["OK", id, false, `duplicate: Event has been processed.`]);
+            return NextResponse.json({ ok: false, id, message: "Event has been processed" });
         }
 
         // 将事件传入AWS SNS
@@ -56,11 +56,11 @@ export async function POST(req: NextRequest) {
         if (result.MessageId) {
             // 将事件写入redis 7天
             await redisClient.set(`event:${id}`, true, { ex: 60 * 60 * 24 * 7 });
-            return NextResponse.json(["OK", id, true, `Event received successfully.`]);
+            return NextResponse.json({ ok: true, id, message: "Event received successfully" });
         } else {
-            return NextResponse.json(["OK", id, false, `error: SNS send error.`]);
+            return NextResponse.json({ ok: false, id, message: "SNS send error" });
         }
     } catch (e) {
-        return NextResponse.json(["OK", "", false, `error: ${e}`]);
+        return NextResponse.json({ ok: false, id: "", message: `Error: ${e}` });
     }
 }

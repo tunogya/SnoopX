@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
         const filter = await req.json();
         const { db } = await connectToDatabase();
 
-        const { ids, authors, kinds, limit, search, since, until } = filter;
+        const { ids, authors, kinds, limit, since, until } = filter;
         const query: Record<string, any> = {};
         if (ids && ids.length > 0) {
             query.id = { $in: ids };
@@ -28,14 +28,14 @@ export async function POST(req: NextRequest) {
             };
         }
         // 查询数据库，并返回;
-        const data = db
-            .collection("events")
+        const data = await db
+            .collection("feeds")
             .find(query)
             .limit(limit || 20)
             .toArray();
 
-        return NextResponse.json(["OK", true, data]);
+        return NextResponse.json({ ok: true, data });
     } catch (e) {
-        return NextResponse.json(["OK", false, `error: ${e}`]);
+        return NextResponse.json({ ok: false, error: `${e}` });
     }
 }
