@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import UserFeed from "./UserFeed";
 
 const Page = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,7 +16,9 @@ const Page = () => {
           })
         });
         const result = await response.json();
-        setData(result);
+        if (result.data) {
+          setData(result.data);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -82,7 +84,7 @@ After that, the path to testing the ATH will be open.`} author={"GuncelKriptoCom
       </div> */}
       <div>
         {
-          data?.data?.map((event: any) => (
+          data.map((event: any) => (
             <UserFeed event={event} key={event.id} />
           ))
         }

@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import moment from "moment";
 
 const UserFeed = ({ event }: { event: any }) => {
     const [data, setData] = useState(null);
@@ -16,12 +17,13 @@ const UserFeed = ({ event }: { event: any }) => {
                     })
                 });
                 const result = await response.json();
-                setData(result);
+                if (result.data[0]) {
+                    setData(result.data[0]);
+                }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
-
         fetchData();
     }, [event.pubkey]);
 
@@ -33,7 +35,7 @@ const UserFeed = ({ event }: { event: any }) => {
                 </div>
                 <div>
                     <div className="font-medium text-sm">{"author"}</div>
-                    <div className="text-[12px] text-[#A1A3A6]">{event.created_at}</div>
+                    <div className="text-[12px] text-[#A1A3A6]">{moment(event.created_at * 1000).fromNow()}</div>
                 </div>
             </div>
             <div className="text-[17.64px] leading-[24px] line-clamp-3">
