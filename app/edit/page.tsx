@@ -27,7 +27,7 @@ const Page = () => {
                 tags: [],
                 created_at: Math.floor(Date.now() / 1000),
             }, sk);
-            const res = await fetch("/api/event", {
+            const res = await fetch("/api/events", {
                 method: "POST",
                 body: JSON.stringify(event),
             }).then(res => res.json());

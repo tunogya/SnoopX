@@ -1,37 +1,16 @@
 "use client";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import moment from "moment";
-
+import { useRouter } from "next/navigation";
+import useSWR from "swr";
 const UserFeed = ({ event }: { event: any }) => {
-    const [data, setData] = useState({
-        picture: null,
-        name: null,
-    });
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch("/api/req", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        kinds: [0],
-                        authors: [event.pubkey],
-                    })
-                });
-                const result = await response.json();
-                if (result.data[0]) {
-                    setData(result.data[0]);
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchData();
-    }, [event.pubkey]);
+    const router = useRouter();
+    const { data } = useSWR(`/api/events?kind=0&pubkey=${event.pubkey}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
 
     return (
-        <div className="px-4 py-3 border-b">
+        <div className="px-4 py-3 border-b" onClick={() => {
+            router.push(`/event/${event.id}`);
+        }}>
             <div className="flex items-center mb-2 space-x-2">
                 <div className="w-8 h-8 rounded-full bg-gray-200">
                     {
@@ -39,7 +18,7 @@ const UserFeed = ({ event }: { event: any }) => {
                     }
                 </div>
                 <div>
-                    <div className="font-medium text-sm">{data.name || "Anonymous"}</div>
+                    <div className="font-medium text-sm">{data?.name || "Anonymous"}</div>
                     <div className="text-[12px] text-[#A1A3A6]">{moment(event.created_at * 1000).fromNow()}</div>
                 </div>
             </div>

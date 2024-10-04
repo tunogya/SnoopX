@@ -2,30 +2,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import UserFeed from "./UserFeed";
-
+import useSWR from "swr";
 const Page = () => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/req", {
-          method: "POST",
-          body: JSON.stringify({
-            kinds: [1],
-          })
-        });
-        const result = await response.json();
-        if (result.data) {
-          setData(result.data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const {data} = useSWR("/api/events?kind=1", (url) => fetch(url).then(r => r.json()).then(r => r.data));
 
   useEffect(() => {
     if (window.Telegram.WebApp) {
@@ -84,7 +63,7 @@ After that, the path to testing the ATH will be open.`} author={"GuncelKriptoCom
       </div> */}
       <div>
         {
-          data.map((event: any) => (
+          data?.map((event: any) => (
             <UserFeed event={event} key={event.id} />
           ))
         }

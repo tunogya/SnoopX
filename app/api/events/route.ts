@@ -4,6 +4,48 @@ import { verifyEvent } from 'nostr-tools';
 import snsClient from "../../../utils/snsClient";
 import { PublishCommand } from "@aws-sdk/client-sns";
 import redisClient from "../../../utils/redisClient";
+import {connectToDatabase} from "../../../utils/db";
+
+export async function GET(req: NextRequest) {
+    const searchParams = req.nextUrl.searchParams;
+    const id = searchParams.get("id");
+    const kind = searchParams.get("kind");
+    const pubkey = searchParams.get("pubkey");
+    const limit = searchParams.get("limit");
+    const since = searchParams.get("since");
+    const until = searchParams.get("until");
+    const search = searchParams.get("search");
+
+    const query = {} as any;
+
+    if (id) {
+        query.id = id;
+    }
+    if (kind) {
+        query.kind = parseInt(kind);
+    }
+    if (pubkey) {
+        query.pubkey = pubkey;
+    }
+    if (since) {
+        query.created_at = { $gte: parseInt(since) };
+    }
+    if (until) {
+        query.created_at = { $lte: parseInt(until) };
+    }
+
+    const { db } = await connectToDatabase();
+
+    console.log(query);
+
+    const data = await db
+    .collection("events")
+    .find(query)
+    .limit(limit ? parseInt(limit) : 20)
+    .toArray();
+
+    return NextResponse.json({ ok: true, data });
+}
 
 export async function POST(req: NextRequest) {
     try {
