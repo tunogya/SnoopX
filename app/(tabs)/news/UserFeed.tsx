@@ -17,7 +17,7 @@ const UserFeed = ({ event }: { event: any }) => {
                         data?.picture ? <Image src={data.picture} alt={""} width={32} height={32} className="rounded-full mr-3 bg-gray-200" /> : <div className="w-8 h-8 rounded-full bg-gray-200"></div>
                     }
                 </div>
-                <div>
+                <div className="flex flex-col space-y-[-2px]">
                     <div className="font-medium text-sm">{data?.name || "Anonymous"}</div>
                     <div className="text-[12px] text-[#A1A3A6]">{moment(event.created_at * 1000).fromNow()}</div>
                 </div>
