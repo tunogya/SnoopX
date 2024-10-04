@@ -27,9 +27,9 @@ export async function POST(req: NextRequest) {
                 $lte: until,
             };
         }
-        // 查询数据库，并返回;
+
         const data = await db
-            .collection("feeds")
+            .collection("events")
             .find(query)
             .limit(limit || 20)
             .toArray();

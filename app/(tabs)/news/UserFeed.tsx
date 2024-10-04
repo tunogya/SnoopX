@@ -1,20 +1,43 @@
 "use client";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
-const UserFeed = ({ title, author, avatar, timestamp }: { title: string; author: string; avatar: string; timestamp: string }) => {
+const UserFeed = ({ event }: { event: any }) => {
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("/api/req", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        kinds: [0],
+                        authors: [event.pubkey],
+                    })
+                });
+                const result = await response.json();
+                setData(result);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, [event.pubkey]);
+
     return (
         <div className="px-4 py-3 border-b">
             <div className="flex items-center mb-2 space-x-2">
                 <div className="w-8 h-8 rounded-full bg-gray-200">
-                    <Image src={avatar} alt={author} width={32} height={32} className="rounded-full mr-3 bg-gray-200" />
+                    {/* <Image src={avatar} alt={""} width={32} height={32} className="rounded-full mr-3 bg-gray-200" /> */}
                 </div>
                 <div>
-                    <div className="font-medium text-sm">{author}</div>
-                    <div className="text-[12px] text-[#A1A3A6]">{timestamp}</div>
+                    <div className="font-medium text-sm">{"author"}</div>
+                    <div className="text-[12px] text-[#A1A3A6]">{event.created_at}</div>
                 </div>
             </div>
             <div className="text-[17.64px] leading-[24px] line-clamp-3">
-                {title}
+                {event.content}
             </div>
             <div className="text-[12px] text-[#A1A3A6] py-2">
                 Comments

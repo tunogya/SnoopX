@@ -2,17 +2,28 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import UserFeed from "./UserFeed";
-import useSWR from "swr";
-const Page = () => {
-  const [events, setEvents] = useState([]);
-  const { data } = useSWR("/api/req", (url) => fetch(url, {
-    method: "POST",
-    body: JSON.stringify({
-      
-    })
-  }).then(res => res.json()));
 
-  console.log(data);
+const Page = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/req", {
+          method: "POST",
+          body: JSON.stringify({
+            kinds: [1],
+          })
+        });
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (window.Telegram.WebApp) {
@@ -42,7 +53,7 @@ const Page = () => {
         <Link href={"/edit"} prefetch className="h-10 flex flex-col items-center justify-center">
           <div className="text-white">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+              <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clipRule="evenodd" />
             </svg>
           </div>
           <div className="text-[10px] text-white font-medium">
@@ -70,10 +81,11 @@ After that, the path to testing the ATH will be open.`} author={"GuncelKriptoCom
         <PinnedFeed title={"UPDATE: #Bitcoin is having its best September on record....on TG = t.me/first1bitcoin/1378"} author={"GuncelKriptoCom"} commentCount={11} readed={false} />
       </div> */}
       <div>
-        <UserFeed title={`Bitcoin is having its best September so far.
-BTC$BTC is up 11% in the past 27 days and is just 10% away from breaking ATH levels.
-This is setting up for an explosive Uptober.
-Bears are in disbelief.`} author={"Lark Davis"} avatar={"https://s3.coinmarketcap.com/static-gravity/image/0822c59e47954c93aab62bca4b546108.jpeg"} timestamp={"2 hours ago"} />
+        {
+          data?.data?.map((event: any) => (
+            <UserFeed event={event} key={event.id} />
+          ))
+        }
       </div>
     </div>
   )
