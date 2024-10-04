@@ -4,7 +4,10 @@ import { useState, useEffect } from "react";
 import moment from "moment";
 
 const UserFeed = ({ event }: { event: any }) => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState({
+        picture: null,
+        name: null,
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,10 +34,12 @@ const UserFeed = ({ event }: { event: any }) => {
         <div className="px-4 py-3 border-b">
             <div className="flex items-center mb-2 space-x-2">
                 <div className="w-8 h-8 rounded-full bg-gray-200">
-                    {/* <Image src={avatar} alt={""} width={32} height={32} className="rounded-full mr-3 bg-gray-200" /> */}
+                    {
+                        data?.picture ? <Image src={data.picture} alt={""} width={32} height={32} className="rounded-full mr-3 bg-gray-200" /> : <div className="w-8 h-8 rounded-full bg-gray-200"></div>
+                    }
                 </div>
                 <div>
-                    <div className="font-medium text-sm">{"author"}</div>
+                    <div className="font-medium text-sm">{data.name || "Anonymous"}</div>
                     <div className="text-[12px] text-[#A1A3A6]">{moment(event.created_at * 1000).fromNow()}</div>
                 </div>
             </div>
