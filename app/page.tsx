@@ -101,8 +101,8 @@ function HomeContent() {
                     method: "POST",
                     body: JSON.stringify(event),
                 });
+                router.push('/news');
             })();
-            router.push('/news');
         }
     }, [state, router]);
 
