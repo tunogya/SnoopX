@@ -115,7 +115,7 @@ function HomeContent() {
                         ],
                     }, sk);
 
-                    await fetch("/api/event", {
+                    await fetch("/api/events", {
                         method: "POST",
                         body: JSON.stringify(event),
                     });
