@@ -10,7 +10,7 @@ const Page = () => {
     const { id } = useParams();
 
     const { data: event } = useSWR(`/api/events?id=${id}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
-    const { data: author } = useSWR(`/api/events?kind=0&pubkey=${event?.pubkey}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
+    const { data: author } = useSWR(`/api/events?kind=0&pubkey=${event?.pubkey}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]).then(r => JSON.parse(r.content)).catch(e => null));
 
     useEffect(() => {
         if (window.Telegram.WebApp) {
