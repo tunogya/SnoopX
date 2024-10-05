@@ -24,6 +24,7 @@ function HomeContent() {
         axiosError: {} as any,
         initData: [] as string[]
     })
+    const [error, setError] = useState("");
 
     const router = useRouter();
 
@@ -74,34 +75,41 @@ function HomeContent() {
 
     useEffect(() => {
         if (state.loginStatus === 1) {
-            window.Telegram.WebApp.CloudStorage.getItem('skHex', async (error: any, skHex: any) => {
-                if (!skHex) {
-                    const { secretKey } = generateNostrKeys();
-                    const _skHex = bytesToHex(secretKey);
-                    window.Telegram.WebApp.CloudStorage.setItem('skHex', _skHex);
-                }
-                const sk = hexToBytes(skHex);
-                const event = finalizeEvent({
-                    kind: 0,
-                    created_at: Math.floor(Date.now() / 1000),
-                    content: JSON.stringify({
-                        name: state.userProfile.username,
-                        picture: state.userProfile.photo_url,
-                        bot: state.userProfile.is_bot,
-                    }),
-                    tags: [
-                        ["id", state.userProfile.id],
-                        ["allows_write_to_pm", state.userProfile.allows_write_to_pm],
-                        ["language_code", state.userProfile.language_code],
-                        ["is_premium", state.userProfile.is_premium],
-                    ],
-                }, sk);
-                await fetch("/api/event", {
-                    method: "POST",
-                    body: JSON.stringify(event),
+            try {
+                window.Telegram.WebApp.CloudStorage.getItem('skHex', async (error: any, skHex: any) => {
+                    if (error) {
+                        setError(error);
+                    }
+                    if (!skHex) {
+                        const { secretKey } = generateNostrKeys();
+                        skHex = bytesToHex(secretKey);
+                        window.Telegram.WebApp.CloudStorage.setItem('skHex', skHex);
+                    }
+                    const sk = hexToBytes(skHex);
+                    const event = finalizeEvent({
+                        kind: 0,
+                        created_at: Math.floor(Date.now() / 1000),
+                        content: JSON.stringify({
+                            name: state.userProfile.username,
+                            picture: state.userProfile.photo_url,
+                            bot: state.userProfile.is_bot,
+                        }),
+                        tags: [
+                            ["id", state.userProfile.id],
+                            ["allows_write_to_pm", state.userProfile.allows_write_to_pm],
+                            ["language_code", state.userProfile.language_code],
+                            ["is_premium", state.userProfile.is_premium],
+                        ],
+                    }, sk);
+                    await fetch("/api/event", {
+                        method: "POST",
+                        body: JSON.stringify(event),
+                    })
+                    router.push('/news');
                 })
-                router.push('/news');
-            })
+            } catch (e) {
+                setError(e as string);
+            }
         }
     }, [state, router]);
 
@@ -128,6 +136,7 @@ function HomeContent() {
             </div>
             {state.loginStatus === -1 && <div>
                 <p className="text-sm text-telegram-text">Error, please open the page within Telegram</p>
+                <p className="text-sm text-telegram-text">{error}</p>
             </div>}
             {state.loginStatus === 1 && <div>
                 <Greetings />
