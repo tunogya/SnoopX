@@ -75,17 +75,30 @@ function HomeContent() {
 
     useEffect(() => {
         if (state.loginStatus === 1) {
-            try {
-                window.Telegram.WebApp.CloudStorage.getItem('skHex', async (error: any, skHex: any) => {
-                    if (error) {
-                        setError(error);
-                    }
+            const getSkHexAndProceed = async () => {
+                try {
+                    const skHex = await new Promise<string>((resolve, reject) => {
+                        window.Telegram.WebApp.CloudStorage.getItem('skHex', (error: any, value: string) => {
+                            if (error) reject(error);
+                            else resolve(value);
+                        });
+                    });
+
+                    let sk;
                     if (!skHex) {
                         const { secretKey } = generateNostrKeys();
-                        skHex = bytesToHex(secretKey);
-                        window.Telegram.WebApp.CloudStorage.setItem('skHex', skHex);
+                        sk = secretKey;
+                        const newSkHex = bytesToHex(secretKey);
+                        await new Promise<void>((resolve, reject) => {
+                            window.Telegram.WebApp.CloudStorage.setItem('skHex', newSkHex, (error: any) => {
+                                if (error) reject(error);
+                                else resolve();
+                            });
+                        });
+                    } else {
+                        sk = hexToBytes(skHex);
                     }
-                    const sk = hexToBytes(skHex);
+
                     const event = finalizeEvent({
                         kind: 0,
                         created_at: Math.floor(Date.now() / 1000),
@@ -95,21 +108,26 @@ function HomeContent() {
                             bot: state.userProfile.is_bot,
                         }),
                         tags: [
-                            ["id", state.userProfile.id],
-                            ["allows_write_to_pm", state.userProfile.allows_write_to_pm],
+                            ["id", state.userProfile.id.toString()],
+                            ["allows_write_to_pm", state.userProfile.allows_write_to_pm ? "true" : "false"],
                             ["language_code", state.userProfile.language_code],
-                            ["is_premium", state.userProfile.is_premium],
+                            ["is_premium", state.userProfile.is_premium ? "true" : "false"],
                         ],
                     }, sk);
+
                     await fetch("/api/event", {
                         method: "POST",
                         body: JSON.stringify(event),
-                    })
+                    });
+
                     router.push('/news');
-                })
-            } catch (e) {
-                setError(e as string);
-            }
+                } catch (e) {
+                    console.error("Error in getSkHexAndProceed:", e);
+                    setError(e instanceof Error ? e.message : String(e));
+                }
+            };
+
+            getSkHexAndProceed();
         }
     }, [state, router]);
 

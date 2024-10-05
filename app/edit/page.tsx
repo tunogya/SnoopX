@@ -15,26 +15,42 @@ const Page = () => {
             setLoading(true);
             let sk;
             if (window?.Telegram?.WebApp?.initData) {
-                const secretKey = window.Telegram.WebApp.CloudStorage.getItem('skHex');
+                const secretKey = await new Promise<string>((resolve, reject) => {
+                    window.Telegram.WebApp.CloudStorage.getItem('skHex', (error: any, value: string) => {
+                        if (error) reject(error);
+                        else resolve(value);
+                    });
+                });
+                if (!secretKey) {
+                    throw new Error("Secret key not found in CloudStorage");
+                }
                 sk = hexToBytes(secretKey);
             } else {
-                console.log("No Telegram WebApp");
+                console.warn("No Telegram WebApp detected, generating new secret key");
                 sk = generateSecretKey();
             }
             const event = finalizeEvent({
                 kind: 1,
-                content: content,
+                content: content.trim(),
                 tags: [],
                 created_at: Math.floor(Date.now() / 1000),
             }, sk);
             const res = await fetch("/api/events", {
                 method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(event),
-            }).then(res => res.json());
-            console.log(res);
+            });
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            const data = await res.json();
+            console.log("Event posted successfully:", data);
             router.back();
         } catch (e) {
-            console.log(e);
+            console.error("Error posting event:", e);
+            // Here you might want to set an error state or show a user-friendly error message
         } finally {
             setLoading(false);
         }
