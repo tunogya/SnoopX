@@ -74,35 +74,36 @@ function HomeContent() {
 
     useEffect(() => {
         if (state.loginStatus === 1) {
-            (async () => {
-                const skHex = await window.Telegram.WebApp.CloudStorage.getItem('skHex');
-                if (!skHex) {
-                    const { secretKey } = generateNostrKeys();
-                    const _skHex = bytesToHex(secretKey);
-                    await window.Telegram.WebApp.CloudStorage.setItem('skHex', _skHex);
-                }
-                const sk = hexToBytes(skHex);
-                const event = finalizeEvent({
-                    kind: 0,
-                    created_at: Math.floor(Date.now() / 1000),
-                    content: JSON.stringify({
-                        name: state.userProfile.username,
-                        picture: state.userProfile.photo_url,
-                        bot: state.userProfile.is_bot,
-                    }),
-                    tags: [
-                        ["id", state.userProfile.id],
-                        ["allows_write_to_pm", state.userProfile.allows_write_to_pm],
-                        ["language_code", state.userProfile.language_code],
-                        ["is_premium", state.userProfile.is_premium],
-                    ],
-                }, sk);
-                await fetch("/api/event", {
-                    method: "POST",
-                    body: JSON.stringify(event),
-                });
+            const skHex = window.Telegram.WebApp.CloudStorage.getItem('skHex');
+            if (!skHex) {
+                const { secretKey } = generateNostrKeys();
+                const _skHex = bytesToHex(secretKey);
+                window.Telegram.WebApp.CloudStorage.setItem('skHex', _skHex);
+            }
+            const sk = hexToBytes(skHex);
+            const event = finalizeEvent({
+                kind: 0,
+                created_at: Math.floor(Date.now() / 1000),
+                content: JSON.stringify({
+                    name: state.userProfile.username,
+                    picture: state.userProfile.photo_url,
+                    bot: state.userProfile.is_bot,
+                }),
+                tags: [
+                    ["id", state.userProfile.id],
+                    ["allows_write_to_pm", state.userProfile.allows_write_to_pm],
+                    ["language_code", state.userProfile.language_code],
+                    ["is_premium", state.userProfile.is_premium],
+                ],
+            }, sk);
+            fetch("/api/event", {
+                method: "POST",
+                body: JSON.stringify(event),
+            }).then(() => {
                 router.push('/news');
-            })();
+            }).catch((e) => {
+                console.log(e);
+            });
         }
     }, [state, router]);
 

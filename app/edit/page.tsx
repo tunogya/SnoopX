@@ -15,7 +15,7 @@ const Page = () => {
             setLoading(true);
             let sk;
             if (window?.Telegram?.WebApp?.initData) {
-                const secretKey = await window.Telegram.WebApp.CloudStorage.getItem('skHex');
+                const secretKey = window.Telegram.WebApp.CloudStorage.getItem('skHex');
                 sk = hexToBytes(secretKey);
             } else {
                 console.log("No Telegram WebApp");
@@ -31,6 +31,7 @@ const Page = () => {
                 method: "POST",
                 body: JSON.stringify(event),
             }).then(res => res.json());
+            console.log(res);
             router.back();
         } catch (e) {
             console.log(e);
