@@ -4,13 +4,14 @@ import { useRouter, useParams } from "next/navigation";
 import useSWR from "swr";
 import moment from "moment";
 import Image from "next/image";
+import Skeleton from "react-loading-skeleton";
 
 const Page = () => {
     const router = useRouter();
     const { id } = useParams();
 
-    const { data: event } = useSWR(`/api/events?id=${id}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
-    const { data: author } = useSWR(`/api/events?kind=0&pubkey=${event?.pubkey}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]).then(r => JSON.parse(r.content)).catch(e => null));
+    const { data: event, isLoading: isEventLoading } = useSWR(`/api/events?id=${id}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
+    const { data: author, isLoading: isAuthorLoading } = useSWR(`/api/events?kind=0&pubkey=${event?.pubkey}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]).then(r => JSON.parse(r.content)).catch(e => null));
 
     useEffect(() => {
         if (window.Telegram.WebApp) {
@@ -50,16 +51,22 @@ const Page = () => {
                     }
                 </div>
                 <div className="flex flex-col space-y-[-2px]">
-                    <div className="font-medium text-sm">{author?.name || "Anonymous"}</div>
-                    <div className="text-[12px] text-[#A1A3A6]">{moment(event?.created_at * 1000).fromNow()}</div>
+                    {
+                        isAuthorLoading ? <Skeleton /> : <div className="font-medium text-sm">{author?.name || "Anonymous"}</div>
+                    }
+                    {
+                        isEventLoading ? <Skeleton /> : <div className="text-[12px] text-[#A1A3A6]">{moment(event?.created_at * 1000).fromNow()}</div>
+                    }
                 </div>
             </div>
             <div className="px-4">
-                <div className="text-[17.64px] leading-[24px] line-clamp-3">
-                    {event?.content}
-                </div>
+                {
+                    isEventLoading ? <Skeleton count={5} /> : <div className="text-[17.64px] leading-[24px] line-clamp-3">
+                        {event?.content}
+                    </div>
+                }
             </div>
-            <div className="px-4 mt-8"> 
+            <div className="px-4 mt-8">
                 <div className="text-[18px] text-black font-medium">
                     Comments 7
                 </div>

@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import {ReactNode} from "react";
 import { Inter } from 'next/font/google';
+import 'react-loading-skeleton/dist/skeleton.css';
 import Script from 'next/script';
 import './styles/globals.css';
 import type { Viewport } from 'next'

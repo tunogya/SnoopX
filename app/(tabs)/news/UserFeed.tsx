@@ -3,9 +3,11 @@ import Image from "next/image";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
+import Skeleton from "react-loading-skeleton";
+
 const UserFeed = ({ event }: { event: any }) => {
     const router = useRouter();
-    const { data } = useSWR(`/api/events?kind=0&pubkey=${event.pubkey}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]).then(r => JSON.parse(r.content)).catch(e => null));
+    const { data, isLoading } = useSWR(`/api/events?kind=0&pubkey=${event.pubkey}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]).then(r => JSON.parse(r.content)).catch(e => null));
 
     return (
         <div className="px-4 py-3 border-b" onClick={() => {
@@ -18,7 +20,9 @@ const UserFeed = ({ event }: { event: any }) => {
                     }
                 </div>
                 <div className="flex flex-col space-y-[-2px]">
-                    <div className="font-medium text-sm">{data?.name || "Anonymous"}</div>
+                    {
+                        isLoading ? <Skeleton /> : <div className="font-medium text-sm">{data?.name || "Anonymous"}</div>
+                    }
                     <div className="text-[12px] text-[#A1A3A6]">{moment(event.created_at * 1000).fromNow()}</div>
                 </div>
             </div>
