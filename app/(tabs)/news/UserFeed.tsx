@@ -4,10 +4,58 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import Skeleton from "react-loading-skeleton";
+import { finalizeEvent, generateSecretKey } from "nostr-tools";
+import { hexToBytes } from '@noble/hashes/utils';
 
 const UserFeed = ({ event }: { event: any }) => {
     const router = useRouter();
     const { data, isLoading } = useSWR(`/api/events?kind=0&pubkey=${event.pubkey}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]).then(r => JSON.parse(r.content)).catch(e => null));
+
+    const handleAction = async (action: string) => {
+        let content = "";
+        if (action === "long") {
+            content = "+"
+        } else if (action === "short") {
+            content = "-"
+        }
+        let sk;
+        if (window?.Telegram?.WebApp?.initData) {
+            const secretKey = await new Promise<string>((resolve, reject) => {
+                window.Telegram.WebApp.CloudStorage.getItem('skHex', (error: any, value: string) => {
+                    if (error) reject(error);
+                    else resolve(value);
+                });
+            });
+            if (!secretKey) {
+                throw new Error("Secret key not found in CloudStorage");
+            }
+            sk = hexToBytes(secretKey);
+        } else {
+            console.warn("No Telegram WebApp detected, generating new secret key");
+            sk = generateSecretKey();
+        }
+        const _event = finalizeEvent({
+            kind: 7,
+            content: content.trim(),
+            tags: [
+                ["p", event.pubkey],
+            ],
+            created_at: Math.floor(Date.now() / 1000),
+        }, sk);
+        await fetch("/api/events", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(_event),
+        });
+    }
+
+    const handleShare = () => {
+        // 调用Telegram的share方法，分享url: https://t.me/snoopx_news_bot
+        const url = `https://t.me/snoopx_news_bot?startapp=event_${event.id}`;
+        window.Telegram.WebApp.share(url);
+    }
 
     return (
         <div className="px-4 py-3 border-b" onClick={() => {

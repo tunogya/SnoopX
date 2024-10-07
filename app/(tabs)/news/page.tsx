@@ -4,13 +4,17 @@ import { useEffect, useState } from "react";
 import UserFeed from "./UserFeed";
 import useSWR from "swr";
 const Page = () => {
-  const {data} = useSWR("/api/events?kind=1", (url) => fetch(url).then(r => r.json()).then(r => r.data));
+  const {data, mutate} = useSWR("/api/events?kind=1", (url) => fetch(url).then(r => r.json()).then(r => r.data));
 
   useEffect(() => {
     if (window.Telegram.WebApp) {
       window.Telegram.WebApp.setHeaderColor('#FF403A')
     }
   }, []);
+
+  const handleRefresh = () => {
+    mutate();
+  }
 
   return (
     <div className="">
