@@ -59,7 +59,7 @@ const UserFeed = ({ event }: { event: any }) => {
 
     return (
         <div className="px-4 py-3 border-b" onClick={() => {
-            router.push(`/event/${event.id}`);
+            router.push(`/event/similar/${event.id}`);
         }}>
             <div className="flex items-center mb-2 space-x-2">
                 <div className="w-8 h-8 rounded-full bg-gray-200">
