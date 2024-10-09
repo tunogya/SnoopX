@@ -42,6 +42,9 @@ export async function GET(req: NextRequest) {
     .collection("events")
     .find(query)
     .limit(limit ? parseInt(limit) : 20)
+    .sort({
+        created_at: -1
+    })
     .toArray();
 
     return NextResponse.json({ ok: true, data });
