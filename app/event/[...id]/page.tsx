@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import useSWR from "swr";
 import moment from "moment";
@@ -51,12 +51,16 @@ const Page = () => {
                     }
                 </div>
                 <div className="flex flex-col space-y-[-2px]">
+                    <div className="h-[20px]">
                     {
                         isAuthorLoading ? <Skeleton /> : <div className="font-medium text-sm">{author?.name || "Anonymous"}</div>
                     }
+                    </div>
+                    <div className="h-[18px]">
                     {
                         isEventLoading ? <Skeleton /> : <div className="text-[12px] text-[#A1A3A6]">{moment(event?.created_at * 1000).fromNow()}</div>
                     }
+                    </div>
                 </div>
             </div>
             <div className="px-4">

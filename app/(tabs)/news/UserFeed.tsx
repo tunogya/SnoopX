@@ -68,9 +68,11 @@ const UserFeed = ({ event }: { event: any }) => {
                     }
                 </div>
                 <div className="flex flex-col space-y-[-2px]">
+                    <div className="h-[20px]">
                     {
-                        isLoading ? <Skeleton /> : <div className="font-medium text-sm">{data?.name || "Anonymous"}</div>
+                        isLoading ? <Skeleton/> : <div className="font-medium text-sm">{data?.name || "Anonymous"}</div>
                     }
+                    </div>
                     <div className="text-[12px] text-[#A1A3A6]">{moment(event.created_at * 1000).fromNow()}</div>
                 </div>
             </div>
