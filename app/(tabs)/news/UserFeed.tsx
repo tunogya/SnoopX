@@ -2,41 +2,14 @@
 import Image from "next/image";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import Skeleton from "react-loading-skeleton";
 import { finalizeEvent, generateSecretKey } from "nostr-tools";
 import { hexToBytes } from '@noble/hashes/utils';
 
 const UserFeed = ({ event }: { event: any }) => {
     const router = useRouter();
-    const [author, setAuthor] = useState<any>(null);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const cacheKey = `pubkey_${event.pubkey}`;
-            const cachedData = sessionStorage.getItem(cacheKey);
-
-            if (cachedData) {
-                setAuthor(JSON.parse(cachedData));
-                setIsLoading(false);
-            } else {
-                try {
-                    const response = await fetch(`/api/events?kind=0&pubkey=${event.pubkey}`);
-                    const result = await response.json();
-                    const eventData = JSON.parse(result.data?.[0]?.content);
-                    setAuthor(eventData);
-                    sessionStorage.setItem(cacheKey, JSON.stringify(eventData));
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                } finally {
-                    setIsLoading(false);
-                }
-            }
-        };
-
-        fetchData();
-    }, [event.pubkey]);
+    const { data, isLoading } = useSWR(`/api/events?kind=0&pubkey=${event.pubkey}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]).then(r => JSON.parse(r.content)).catch(e => null));
 
     const handleAction = async (action: string) => {
         let content = "";
@@ -79,6 +52,7 @@ const UserFeed = ({ event }: { event: any }) => {
     }
 
     const handleShare = () => {
+        // 调用Telegram的share方法，分享url: https://t.me/snoopx_news_bot
         const url = `https://t.me/snoopx_news_bot?startapp=event_${event.id}`;
         window.Telegram.WebApp.share(url);
     }
@@ -90,13 +64,13 @@ const UserFeed = ({ event }: { event: any }) => {
             <div className="flex items-center mb-2 space-x-2">
                 <div className="w-8 h-8 rounded-full bg-gray-200">
                     {
-                        author?.picture ? <Image src={author.picture} alt={""} width={32} height={32} className="rounded-full mr-3 bg-gray-200" /> : <div className="w-8 h-8 rounded-full bg-gray-200"></div>
+                        data?.picture ? <Image src={data.picture} alt={""} width={32} height={32} className="rounded-full mr-3 bg-gray-200" /> : <div className="w-8 h-8 rounded-full bg-gray-200"></div>
                     }
                 </div>
                 <div className="flex flex-col space-y-[-2px]">
                     <div className="h-[20px]">
                     {
-                        isLoading ? <Skeleton/> : <div className="font-medium text-sm">{author?.name || "Anonymous"}</div>
+                        isLoading ? <Skeleton/> : <div className="font-medium text-sm">{data?.name || "Anonymous"}</div>
                     }
                     </div>
                     <div className="text-[12px] text-[#A1A3A6]">{moment(event.created_at * 1000).fromNow()}</div>

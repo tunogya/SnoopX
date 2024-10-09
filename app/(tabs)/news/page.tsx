@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { useCallback, useEffect } from "react";
+import { useEffect, useState } from "react";
 import UserFeed from "./UserFeed";
 import useSWR from "swr";
 const Page = () => {
@@ -15,20 +15,6 @@ const Page = () => {
   const handleRefresh = () => {
     mutate();
   }
-
-  const cacheEvent = useCallback(() => {
-    if (data) {
-      data.forEach((item: any) => {
-        if (item.id) {
-          sessionStorage.setItem(item.id, JSON.stringify(item));
-        }
-      });
-    }
-  }, [data]);
-
-  useEffect(() => {
-    cacheEvent()
-  }, [cacheEvent])
 
   return (
     <div className="">

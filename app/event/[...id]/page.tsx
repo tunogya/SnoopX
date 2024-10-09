@@ -1,6 +1,7 @@
 'use client';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
+import useSWR from "swr";
 import moment from "moment";
 import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
@@ -8,68 +9,15 @@ import Skeleton from "react-loading-skeleton";
 const Page = () => {
     const router = useRouter();
     const { id } = useParams();
-    const [event, setEvent] = useState<any>(null);
-    const [author, setAuthor] = useState<any>(null);
-    const [isEventLoading, setIsEventLoading] = useState(true);
-    const [isAuthorLoading, setIsAuthorLoading] = useState(true);
+
+    const { data: event, isLoading: isEventLoading } = useSWR(`/api/events?id=${id}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
+    const { data: author, isLoading: isAuthorLoading } = useSWR(`/api/events?kind=0&pubkey=${event?.pubkey}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]).then(r => JSON.parse(r.content)).catch(e => null));
 
     useEffect(() => {
         if (window.Telegram.WebApp) {
-            window.Telegram.WebApp.setHeaderColor('#FFFFFF');
+            window.Telegram.WebApp.setHeaderColor('#FFFFFF')
         }
     }, []);
-
-    useEffect(() => {
-        const fetchEvent = async () => {
-            if (id) {
-                const cache = sessionStorage.getItem(`${id}`);
-                if (cache) {
-                    setEvent(JSON.parse(cache));
-                    setIsEventLoading(false);
-                } else {
-                    try {
-                        const response = await fetch(`/api/events?id=${id}`);
-                        const result = await response.json();
-                        const eventData = result.data?.[0];
-                        setEvent(eventData);
-                        sessionStorage.setItem(`${id}`, JSON.stringify(eventData));
-                    } catch (error) {
-                        console.error("Error fetching event:", error);
-                    } finally {
-                        setIsEventLoading(false);
-                    }
-                }
-            }
-        };
-
-        fetchEvent();
-    }, [id]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const cacheKey = `pubkey_${event.pubkey}`;
-            const cachedData = sessionStorage.getItem(cacheKey);
-
-            if (cachedData) {
-                setAuthor(JSON.parse(cachedData));
-                setIsAuthorLoading(false);
-            } else {
-                try {
-                    const response = await fetch(`/api/events?kind=0&pubkey=${event.pubkey}`);
-                    const result = await response.json();
-                    const eventData = JSON.parse(result.data?.[0]?.content);
-                    setAuthor(eventData);
-                    sessionStorage.setItem(cacheKey, JSON.stringify(eventData));
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                } finally {
-                    setIsAuthorLoading(false);
-                }
-            }
-        };
-
-        fetchData();
-    }, [event.pubkey]);
 
     return (
         <div className="overflow-scroll no-scrollbar relative h-full">
