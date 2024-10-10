@@ -5,6 +5,7 @@ import snsClient from "../../../utils/snsClient";
 import { PublishCommand } from "@aws-sdk/client-sns";
 import redisClient from "../../../utils/redisClient";
 import {connectToDatabase} from "../../../utils/db";
+import embedding from '@/utils/embedding';
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
@@ -17,6 +18,12 @@ export async function GET(req: NextRequest) {
     const search = searchParams.get("search");
 
     const query = {} as any;
+    const option = {
+        limit: limit ? parseInt(limit) : 20,
+        sort: {
+            created_at: -1,
+        }
+    } as any;
 
     if (id) {
         query.id = id;
@@ -33,18 +40,16 @@ export async function GET(req: NextRequest) {
     if (until) {
         query.created_at = { $lte: parseInt(until) };
     }
+    if (search) {
+        option.$vector = await embedding(query);
+        option.limit = 20;
+    }
 
     const { db } = await connectToDatabase();
 
-    console.log(query);
-
     const data = await db
     .collection("events")
-    .find(query)
-    .limit(limit ? parseInt(limit) : 20)
-    .sort({
-        created_at: -1
-    })
+    .find(query, option)
     .toArray();
 
     return NextResponse.json({ ok: true, data });

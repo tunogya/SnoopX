@@ -44,7 +44,7 @@ const Page = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center mb-2 space-x-2 px-4">
+            <div className="flex items-center pt-3 mb-2 space-x-2 px-4">
                 <div className="w-8 h-8 rounded-full bg-gray-200">
                     {
                         author?.picture ? <Image src={author.picture} alt={""} width={32} height={32} className="rounded-full mr-3 bg-gray-200" /> : <div className="w-8 h-8 rounded-full bg-gray-200"></div>

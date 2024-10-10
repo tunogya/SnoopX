@@ -1,14 +1,16 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import useSWR from "swr";
-import moment from "moment";
-import Image from "next/image";
 import Skeleton from "react-loading-skeleton";
+import UserFeedFullText from "./UserFeedFullText";
 
 const Page = () => {
     const router = useRouter();
     const { id } = useParams();
+
+    const { data: event, isLoading: isEventLoading } = useSWR(`/api/events?id=${id}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
+    const {data: similarEvent } = useSWR(event ? `/api/events?search=${event.content}` : null, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
 
     useEffect(() => {
         if (window.Telegram.WebApp) {
@@ -41,6 +43,23 @@ const Page = () => {
                     </div>
                 </div>
             </div>
+            {
+                isEventLoading && (
+                    <div className="px-4 pt-2"> 
+                        <Skeleton  count={5}/>
+                    </div>
+                )
+            }
+            {
+                event && (
+                    <UserFeedFullText event={event} />
+                )
+            }
+            {
+                similarEvent && similarEvent.map((item: any) => (
+                    <UserFeedFullText event={item} key={item.id}/>
+                ))
+            }
         </div>
     )
 }
