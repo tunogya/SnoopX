@@ -5,7 +5,7 @@ import snsClient from "../../../utils/snsClient";
 import { PublishCommand } from "@aws-sdk/client-sns";
 import redisClient from "../../../utils/redisClient";
 import {connectToDatabase} from "../../../utils/db";
-import embedding from '@/utils/embedding';
+import {embedding} from '@/utils/embedding';
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
@@ -41,8 +41,7 @@ export async function GET(req: NextRequest) {
         query.created_at = { $lte: parseInt(until) };
     }
     if (search) {
-        option.$vector = await embedding(query);
-        option.limit = 20;
+        option.$vector = await embedding(search);
     }
 
     const { db } = await connectToDatabase();

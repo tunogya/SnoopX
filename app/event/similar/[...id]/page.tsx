@@ -10,11 +10,11 @@ const Page = () => {
     const { id } = useParams();
 
     const { data: event, isLoading: isEventLoading } = useSWR(`/api/events?id=${id}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
-    const {data: similarEvent } = useSWR(event ? `/api/events?search=${event.content}` : null, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
+    const {data: similarEvent } = useSWR(event ? `/api/events?search=${event.content}&kind=1` : null, (url) => fetch(url).then(r => r.json()).then(r => r.data));
 
     useEffect(() => {
         if (window.Telegram.WebApp) {
-            window.Telegram.WebApp.setHeaderColor('#FFFFFF')
+            window.Telegram.WebApp.setHeaderColor('#FFFFFF');
         }
     }, []);
 

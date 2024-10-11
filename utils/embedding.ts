@@ -1,6 +1,6 @@
-import openai from "./openai";
+import { openai } from "./openai";
 
-async function embedding(prompt: string) {
+export async function embedding(prompt: string) {
     try {
       const response = await openai.embeddings.create({
         input: prompt,
@@ -8,8 +8,6 @@ async function embedding(prompt: string) {
       });
       return response.data[0].embedding;
     } catch (e) {
-      throw new Error("Failed to embed prompt");
+      throw new Error(`Failed to embed prompt: ${e}`);
     }
-  }
-
-  export default embedding;
+  } 
