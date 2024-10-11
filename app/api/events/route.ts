@@ -66,6 +66,8 @@ export async function GET(req: NextRequest) {
             ok: true,
             cache: true,
             data
+        }, {
+            ex: 24 * 60 * 60
         })
     } catch (e) {
         console.log(e)
