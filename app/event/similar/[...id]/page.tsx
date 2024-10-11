@@ -10,7 +10,7 @@ const Page = () => {
     const { id } = useParams();
 
     const { data: event, isLoading: isEventLoading } = useSWR(`/api/events?id=${id}`, (url) => fetch(url).then(r => r.json()).then(r => r.data?.[0]));
-    const {data: similarEvent } = useSWR(event ? `/api/events?search=${event.content}&kind=1` : null, (url) => fetch(url).then(r => r.json()).then(r => r.data));
+    const {data: similarEvent, isLoading: isSilimarEventLoading } = useSWR(event ? `/api/events?search=${event.content}&kind=1` : null, (url) => fetch(url).then(r => r.json()).then(r => r.data));
 
     useEffect(() => {
         if (window.Telegram.WebApp) {
@@ -44,13 +44,6 @@ const Page = () => {
                 </div>
             </div>
             {
-                isEventLoading && (
-                    <div className="px-4 pt-2"> 
-                        <Skeleton  count={5}/>
-                    </div>
-                )
-            }
-            {
                 event && (
                     <UserFeedFullText event={event} />
                 )
@@ -59,6 +52,13 @@ const Page = () => {
                 similarEvent && similarEvent.map((item: any) => (
                     <UserFeedFullText event={item} key={item.id}/>
                 ))
+            }
+            {
+                (isEventLoading || (event && isSilimarEventLoading)) && (
+                    <div className="px-4 pt-2"> 
+                        <Skeleton  count={5}/>
+                    </div>
+                )
             }
         </div>
     )
