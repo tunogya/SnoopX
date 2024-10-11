@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     const search = searchParams.get("search");
 
     try {
-        const cached = await redis.get(`event:${searchParams.toString}`)
+        const cached = await redis.get(`event:${searchParams.toString()}`)
         if (cached) {
             return NextResponse.json(cached);
         }
@@ -62,12 +62,12 @@ export async function GET(req: NextRequest) {
     .toArray();
 
     try {
-        await redis.set(`event:${searchParams.toString}`, {
+        await redis.set(`event:${searchParams.toString()}`, {
             ok: true,
             cache: true,
             data
         }, {
-            ex: 24 * 60 * 60
+            ex: 60
         })
     } catch (e) {
         console.log(e)
