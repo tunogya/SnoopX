@@ -6,6 +6,7 @@ import { PublishCommand } from "@aws-sdk/client-sns";
 import redisClient from "../../../utils/redisClient";
 import {connectToDatabase} from "../../../utils/db";
 import {embedding} from '@/utils/embedding';
+import redis from "@/utils/redisClient";
 
 export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
@@ -16,6 +17,11 @@ export async function GET(req: NextRequest) {
     const since = searchParams.get("since");
     const until = searchParams.get("until");
     const search = searchParams.get("search");
+
+    const cached = await redis.get(`event:${searchParams.toString}`)
+    if (cached) {
+        return NextResponse.json(cached);
+    }
 
     const query = {} as any;
     const option = {
@@ -50,6 +56,12 @@ export async function GET(req: NextRequest) {
     .collection("events")
     .find(query, option)
     .toArray();
+
+    await redis.set(`event:${searchParams.toString}`, {
+        ok: true,
+        cache: true,
+        data
+    })
 
     return NextResponse.json({ ok: true, data });
 }
