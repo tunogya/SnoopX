@@ -49,7 +49,7 @@ const Page = () => {
                 )
             }
             {
-                similarEvent && similarEvent.map((item: any) => (
+                similarEvent && similarEvent.filter((item: any) => item.id !== event.id).map((item: any) => (
                     <UserFeedFullText event={item} key={item.id}/>
                 ))
             }
